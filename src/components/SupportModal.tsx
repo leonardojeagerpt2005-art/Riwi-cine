@@ -17,7 +17,7 @@ export function SupportModal({ isOpen, onClose, userEmail = "" }: SupportModalPr
 
   if (!isOpen) return null;
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e:React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email || !message) {
       setError("Por favor completa tu correo y la descripción de la queja.");

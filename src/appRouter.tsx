@@ -6,6 +6,7 @@ import MainLayout from "./components/layouts/MainLayout";
 import BillboardPage from "./pages/BillboardPage";
 import MembershipdPage from "./pages/MembershipPage";
 import FoodPage from "./pages/FoodPage";
+import { requirsAuth} from "./loaders/authcontext"
 
 export const router = createBrowserRouter(
     [
@@ -25,6 +26,7 @@ export const router = createBrowserRouter(
         },
         {
             element:<MainLayout/>,
+            loader:requirsAuth,
             children:[
                 {
                     path:"/billboard",

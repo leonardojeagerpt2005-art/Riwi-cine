@@ -1,48 +1,40 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { Film, Mail, Lock, ArrowRight, LifeBuoy, AlertCircle, Sparkles } from "lucide-react";
-import { SupportModal } from "../components/SupportModal";
 import { VideoBackground } from "../components/VideoBackground";
-import { LocationModal } from "../components/location/LocationModal";
+import { UseAuth } from "../context/AuthContext";
 
 export default function LoginPage() {
+  const { login } = UseAuth()
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
   const [isSupportOpen, setIsSupportOpen] = useState(false);
-  const [isLocationOpen, setIsLocationOpen] = useState(false);
-
-  const handleLogin = async (e: React.FormEvent) => {
+ 
+  const handleLogin = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
-    setLoading(true);
 
     try {
-      const res = await fetch("/api/users");
+      const res = await fetch("http://localhost:3000/users");
       const users = await res.json();
       
       const found = users.find(
-        (u: { email: string; password: string }) => u.email === email && u.password === password,
-      );
+        (u: { email: string; password: string }) => u.email === email && u.password === password,);
       if (found) {
-        localStorage.setItem("cinema_user", JSON.stringify(found));
-        setIsLocationOpen(true);
+        login(found)
+        navigate("/billboard")
       } else {
-        setError("Credenciales incorrectas. Verifica tu correo o contraseña.");
+        alert("incorrecto")
+        navigate("/")
       }
     } catch {
       setError("Error de conexión con el servidor.");
-    } finally {
-      setLoading(false);
-    }
+    } 
   };
 
-  const handleLocationClose = () => {
-    setIsLocationOpen(false);
-    navigate("/cinema");
-  };
+ 
 
   const handleDemoLogin = () => {
     setEmail("demo@riwicinema.com");
@@ -113,10 +105,10 @@ export default function LoginPage() {
 
           <button
             type="submit"
-            disabled={loading}
+           
             className="water-btn w-full py-3.5 rounded-xl text-xs font-bold tracking-wider uppercase flex items-center justify-center space-x-2 mt-2 shadow-lg"
           >
-            <span>{loading ? "Iniciando..." : "Iniciar Sesión"}</span>
+           
             <ArrowRight className="w-4 h-4" />
           </button>
         </form>
@@ -140,7 +132,8 @@ export default function LoginPage() {
       </div>
 
       <SupportModal isOpen={isSupportOpen} onClose={() => setIsSupportOpen(false)} userEmail={email} />
-      <LocationModal isOpen={isLocationOpen} onClose={handleLocationClose} />
+
+     
     </div>
   );
 }
