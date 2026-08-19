@@ -6,7 +6,10 @@ import MainLayout from "./components/layouts/MainLayout";
 import BillboardPage from "./pages/BillboardPage";
 import MembershipdPage from "./pages/MembershipPage";
 import FoodPage from "./pages/FoodPage";
-import { requirsAuth} from "./loaders/authcontext"
+import { requirsAuth} from "./loaders/authLoader"
+import CityPage from "./pages/CityPage";
+import { requirsCity } from "./loaders/dashboardLoader";
+import CityRouter from "./cityRouter/CityRoute";
 
 export const router = createBrowserRouter(
     [
@@ -25,11 +28,22 @@ export const router = createBrowserRouter(
             ]
         },
         {
-            element:<MainLayout/>,
+            path:"city",
             loader:requirsAuth,
+            element:<CityRouter/>,
             children:[
                 {
-                    path:"/billboard",
+                    index:true,
+                    element:<CityPage/>
+                }
+            ]
+        },
+        {
+            element:<MainLayout/>,
+            loader:requirsCity,
+            children:[
+                {
+                    path:"billboard",
                     element:<BillboardPage/>
                 },
                 {

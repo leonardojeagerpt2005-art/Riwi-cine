@@ -1,9 +1,10 @@
-import { Outlet } from "react-router";
+import { Outlet, Navigate } from "react-router";
+import { UseAuth } from "../context/AuthContext";
+
 
 function PublictRouter() {
-    return(
-        <Outlet/>
-    )
+    const {isAuthenticated} = UseAuth()
+    return isAuthenticated?<Navigate to={"/city"}/>:<Outlet/>
 }
 
 export default PublictRouter

@@ -10,7 +10,6 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [isSupportOpen, setIsSupportOpen] = useState(false);
  
   const handleLogin = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -24,10 +23,9 @@ export default function LoginPage() {
         (u: { email: string; password: string }) => u.email === email && u.password === password,);
       if (found) {
         login(found)
-        navigate("/billboard")
+        navigate("/city")
       } else {
-        alert("incorrecto")
-        navigate("/")
+        alert("error")
       }
     } catch {
       setError("Error de conexión con el servidor.");
@@ -122,7 +120,6 @@ export default function LoginPage() {
           </p>
 
           <button
-            onClick={() => setIsSupportOpen(true)}
             className="text-xs text-slate-400 hover:text-cyan-300 transition-colors flex items-center justify-center space-x-1.5 mx-auto pt-2 border-t border-white/10 w-full"
           >
             <LifeBuoy className="icon-float w-3.5 h-3.5 text-cyan-400" />
@@ -131,7 +128,7 @@ export default function LoginPage() {
         </div>
       </div>
 
-      <SupportModal isOpen={isSupportOpen} onClose={() => setIsSupportOpen(false)} userEmail={email} />
+      
 
      
     </div>

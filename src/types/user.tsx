@@ -5,3 +5,8 @@ export type User = {
     password:string,
     
 }
+
+export type UserCity ={
+    country:string|null,
+    city:string
+}
