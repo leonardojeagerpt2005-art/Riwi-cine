@@ -10,8 +10,7 @@ export function VideoBackground() {
     <div className="fixed inset-0 z-0 overflow-hidden">
       <video
         className="absolute inset-0 w-full h-full object-cover"
-        src="/videos/login-bg.mp4"
-        poster="/videos/login-bg-poster.jpg"
+        src="https://res.cloudinary.com/lnyl9lwv/video/upload/v1787315361/rwnjzio97m5yje2ur5nb.mp4"
         autoPlay
         loop
         muted

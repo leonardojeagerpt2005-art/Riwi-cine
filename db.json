@@ -57,7 +57,7 @@
       "duration": "114 min",
       "rating": "7.0",
       "poster": "https://image.tmdb.org/t/p/w500/prSfAi1xGrhLQNxVSUFh61xQ4Qy.jpg",
-      "video": "/videos/login-bg.mp4",
+      "video": "https://res.cloudinary.com/lnyl9lwv/video/upload/v1787315361/rwnjzio97m5yje2ur5nb.mp4",
       "synopsis": "El poderoso pero arrogante dios del trueno es desterrado a la Tierra y deberá demostrar que es digno de su legendario martillo, Mjölnir.",
       "showtimes": [
         "14:30",
@@ -73,7 +73,7 @@
       "duration": "132 min",
       "rating": "4.7",
       "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRD8fd5MFF7Lmng6za5mD7VERshs7YNAX9S2Tw07yki2g&s",
-      "video": "/videos/abismo-secreto.mp4",
+      "video": "https://res.cloudinary.com/lnyl9lwv/video/upload/v1787315352/rzsforynmerhtavtodyc.mp4",
       "synopsis": "Una expedición científica en las profundidades del océano Pacífico encuentra una civilización desconocida.",
       "showtimes": [
         "15:00",
@@ -89,7 +89,7 @@
       "duration": "120 min",
       "rating": "7.8",
       "poster": "https://image.tmdb.org/t/p/w500/5WEIg4rVybYOK5QMXbJc8SAdMaZ.jpg",
-      "video": "/videos/spider-man-brand-new-day.mp4",
+      "video": "https://res.cloudinary.com/lnyl9lwv/video/upload/v1787315363/zzmlju7rbjfqjmhwdkbt.mp4",
       "synopsis": "Peter Parker enfrenta un nuevo comienzo mientras protege a Nueva York de una amenaza inesperada.",
       "showtimes": [
         "16:15",
@@ -105,7 +105,7 @@
       "duration": "125 min",
       "rating": "4.6",
       "poster": "https://cdn.colombia.com/cine/2025/3/codigo-negro-44726.jpg",
-      "video": "/videos/codigo-negro.mp4",
+      "video": "https://res.cloudinary.com/lnyl9lwv/video/upload/v1787315354/wmb9gaoqjbzzpxpneeie.mp4",
       "synopsis": "Un agente encubierto debe infiltrarse en la red de inteligencia artificial más peligrosa del planeta.",
       "showtimes": [
         "13:45",
@@ -121,7 +121,7 @@
       "duration": "126 min",
       "rating": "7.9",
       "poster": "https://image.tmdb.org/t/p/w500/78lPtwv72eTNqFW9COBYI0dWDJa.jpg",
-      "video": "/videos/iroman.mp4",
+      "video": "https://res.cloudinary.com/lnyl9lwv/video/upload/v1787315357/t1nrxdnh8awxmzz5rtaw.mp4",
       "synopsis": "Tony Stark crea una armadura de alta tecnología y decide usarla para proteger al mundo.",
       "showtimes": [
         "14:00",
@@ -137,7 +137,7 @@
       "duration": "148 min",
       "rating": "8.3",
       "poster": "https://images.unsplash.com/photo-1519074069444-1ba4fff66d16?auto=format&fit=crop&q=80&w=800",
-      "video": "/videos/la-odisea.mp4",
+      "video": "https://res.cloudinary.com/lnyl9lwv/video/upload/v1787315359/ednfopratrdni1zyhuwq.mp4",
       "synopsis": "Un héroe emprende un peligroso viaje de regreso a casa, enfrentando mares desconocidos, criaturas míticas y el paso del tiempo.",
       "showtimes": [
         "15:30",
