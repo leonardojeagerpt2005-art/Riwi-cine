@@ -37,14 +37,14 @@ export function CountrySelector({ value, onChange }: CountrySelectorProps) {
       <select
         id="country"
         value={value ?? ""}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={e => onChange(e.target.value)}
         disabled={loading}
         className="liquid-glass-input w-full px-4 py-3 rounded-xl text-sm disabled:opacity-50 disabled:cursor-not-allowed"
       >
         <option value="" disabled>
           {loading ? "Cargando países..." : "Selecciona un país"}
         </option>
-        {countries.map((country) => (
+        {countries.map(country => (
           <option key={country.name} value={country.name}>
             {country.name}
           </option>

@@ -17,9 +17,16 @@ const CURRENCIES: Record<string, Currency> = {
   Argentina: { code: "ARS", symbol: "$", rate: 1000, decimals: 0 },
 };
 
-const DEFAULT_CURRENCY: Currency = { code: "USD", symbol: "$", rate: 1, decimals: 2 };
+const DEFAULT_CURRENCY: Currency = {
+  code: "USD",
+  symbol: "$",
+  rate: 1,
+  decimals: 2,
+};
 
-export function getCurrencyForCountry(country: string | null | undefined): Currency {
+export function getCurrencyForCountry(
+  country: string | null | undefined
+): Currency {
   if (!country) return DEFAULT_CURRENCY;
   return CURRENCIES[country] ?? DEFAULT_CURRENCY;
 }

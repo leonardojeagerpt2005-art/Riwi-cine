@@ -7,6 +7,7 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import CinemaHome from "./pages/CinemaHome";
+import Cart from "./pages/Cart";
 
 function Router() {
   return (
@@ -15,6 +16,7 @@ function Router() {
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
       <Route path="/cinema" component={CinemaHome} />
+      <Route path="/cart" component={Cart} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>

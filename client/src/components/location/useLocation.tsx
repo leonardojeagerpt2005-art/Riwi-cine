@@ -39,14 +39,14 @@ const listeners = new Set<() => void>();
 
 function setState(next: LocationState) {
   state = next;
-  listeners.forEach((listener) => listener());
+  listeners.forEach(listener => listener());
 }
 
 export function useLocation() {
   const [, forceUpdate] = useState(0);
 
   useEffect(() => {
-    const listener = () => forceUpdate((n) => n + 1);
+    const listener = () => forceUpdate(n => n + 1);
     listeners.add(listener);
     return () => {
       listeners.delete(listener);
@@ -93,6 +93,9 @@ export function useLocation() {
       return true;
     },
 
-    isComplete: state.selection.country !== null && state.selection.department !== null && state.selection.city !== null,
+    isComplete:
+      state.selection.country !== null &&
+      state.selection.department !== null &&
+      state.selection.city !== null,
   };
 }

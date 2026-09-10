@@ -1,6 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useLocation as useWouterLocation } from "wouter";
-import { Film, Search, LifeBuoy, LogOut, Ticket, Sparkles, Calendar, Clock, MapPin, Languages, Trash2 } from "lucide-react";
+import {
+  Film,
+  Search,
+  LifeBuoy,
+  LogOut,
+  Ticket,
+  Sparkles,
+  Calendar,
+  Clock,
+  MapPin,
+  Languages,
+  Trash2,
+  ShoppingBag,
+} from "lucide-react";
 import { toast } from "sonner";
 import { CinematicBackground } from "../components/CinematicBackground";
 import { MovieCard } from "../components/MovieCard";
@@ -8,7 +21,10 @@ import { SeatSelector } from "../components/SeatSelector";
 import { SupportModal } from "../components/SupportModal";
 import { LocationModal } from "../components/location/LocationModal";
 import { useLocation as useCinemaLocation } from "../components/location/useLocation";
-import { getCurrencyForCountry, formatPrice } from "../components/location/currencies";
+import {
+  getCurrencyForCountry,
+  formatPrice,
+} from "../components/location/currencies";
 
 export default function CinemaHome() {
   const [, setLocation] = useWouterLocation();
@@ -20,37 +36,75 @@ export default function CinemaHome() {
   const [selectedGenre, setSelectedGenre] = useState("Todos");
   const [activeTab, setActiveTab] = useState<"catalog" | "bookings">("catalog");
 
-  const [selectedMovieForBooking, setSelectedMovieForBooking] = useState<any>(null);
+  const [selectedMovieForBooking, setSelectedMovieForBooking] =
+    useState<any>(null);
   const [isSupportOpen, setIsSupportOpen] = useState(false);
   const [isLocationOpen, setIsLocationOpen] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [cancellingBookingId, setCancellingBookingId] = useState<number | null>(null);
+  const [cancellingBookingId, setCancellingBookingId] = useState<number | null>(
+    null
+  );
   const [language, setLanguage] = useState<"es" | "en">(() =>
-    localStorage.getItem("cinema_language") === "en" ? "en" : "es",
+    localStorage.getItem("cinema_language") === "en" ? "en" : "es"
   );
 
   const currency = getCurrencyForCountry(locationStore.selection.country);
-  const copy = language === "es"
-    ? {
-        billboard: "Cartelera", bookings: "Mis Reservas", location: "Ubicación", support: "Soporte", logout: "Cerrar sesión",
-        featured: "Estreno Estelar IMAX", reserve: "Reservar ahora", search: "Buscar películas, géneros...",
-        loading: "Cargando cartelera...", empty: "No se encontraron películas con ese criterio.",
-        bookingTitle: "Mis Entradas y Reservas", bookingSubtitle: "Historial de butacas reservadas en Cinema Riwi",
-        noBookings: "No tienes reservas activas", noBookingsText: "Explora nuestra cartelera y selecciona tus películas favoritas para apartar tus butacas.",
-        seeBillboard: "Ver cartelera", confirmed: "Confirmada", seats: "Asientos", select: "Seleccionar y reservar",
-        cancelBooking: "Cancelar reserva", cancelConfirm: "¿Quieres cancelar esta reserva? Esta acción no se puede deshacer.", cancelSuccess: "Reserva cancelada correctamente", cancelError: "No fue posible cancelar la reserva",
-        genres: ["Todos", "Ciencia ficción", "Suspenso", "Drama", "Acción"],
-      }
-    : {
-        billboard: "Now Showing", bookings: "My Bookings", location: "Location", support: "Support", logout: "Log out",
-        featured: "IMAX Featured Premiere", reserve: "Book now", search: "Search movies, genres...",
-        loading: "Loading movies...", empty: "No movies were found for that criteria.",
-        bookingTitle: "My Tickets and Bookings", bookingSubtitle: "Your reserved seats at Cinema Riwi",
-        noBookings: "You have no active bookings", noBookingsText: "Explore our movies and select your favorites to reserve your seats.",
-        seeBillboard: "View movies", confirmed: "Confirmed", seats: "Seats", select: "Select and book",
-        cancelBooking: "Cancel booking", cancelConfirm: "Do you want to cancel this booking? This action cannot be undone.", cancelSuccess: "Booking cancelled successfully", cancelError: "The booking could not be cancelled",
-        genres: ["All", "Science Fiction", "Thriller", "Drama", "Action"],
-      };
+  const copy =
+    language === "es"
+      ? {
+          billboard: "Cartelera",
+          bookings: "Mis Reservas",
+          location: "Ubicación",
+          support: "Soporte",
+          logout: "Cerrar sesión",
+          featured: "Estreno Estelar IMAX",
+          reserve: "Reservar ahora",
+          search: "Buscar películas, géneros...",
+          loading: "Cargando cartelera...",
+          empty: "No se encontraron películas con ese criterio.",
+          bookingTitle: "Mis Entradas y Reservas",
+          bookingSubtitle: "Historial de butacas reservadas en Cinema Riwi",
+          noBookings: "No tienes reservas activas",
+          noBookingsText:
+            "Explora nuestra cartelera y selecciona tus películas favoritas para apartar tus butacas.",
+          seeBillboard: "Ver cartelera",
+          confirmed: "Confirmada",
+          seats: "Asientos",
+          select: "Seleccionar y reservar",
+          cancelBooking: "Cancelar reserva",
+          cancelConfirm:
+            "¿Quieres cancelar esta reserva? Esta acción no se puede deshacer.",
+          cancelSuccess: "Reserva cancelada correctamente",
+          cancelError: "No fue posible cancelar la reserva",
+          genres: ["Todos", "Ciencia ficción", "Suspenso", "Drama", "Acción"],
+        }
+      : {
+          billboard: "Now Showing",
+          bookings: "My Bookings",
+          location: "Location",
+          support: "Support",
+          logout: "Log out",
+          featured: "IMAX Featured Premiere",
+          reserve: "Book now",
+          search: "Search movies, genres...",
+          loading: "Loading movies...",
+          empty: "No movies were found for that criteria.",
+          bookingTitle: "My Tickets and Bookings",
+          bookingSubtitle: "Your reserved seats at Cinema Riwi",
+          noBookings: "You have no active bookings",
+          noBookingsText:
+            "Explore our movies and select your favorites to reserve your seats.",
+          seeBillboard: "View movies",
+          confirmed: "Confirmed",
+          seats: "Seats",
+          select: "Select and book",
+          cancelBooking: "Cancel booking",
+          cancelConfirm:
+            "Do you want to cancel this booking? This action cannot be undone.",
+          cancelSuccess: "Booking cancelled successfully",
+          cancelError: "The booking could not be cancelled",
+          genres: ["All", "Science Fiction", "Thriller", "Drama", "Action"],
+        };
   const genreFilters = [
     { value: "Todos", label: copy.genres[0] },
     { value: "Ciencia ficción", label: copy.genres[1] },
@@ -100,10 +154,14 @@ export default function CinemaHome() {
 
     setCancellingBookingId(bookingId);
     try {
-      const response = await fetch(`/api/bookings/${bookingId}`, { method: "DELETE" });
+      const response = await fetch(`/api/bookings/${bookingId}`, {
+        method: "DELETE",
+      });
       if (!response.ok) throw new Error("Unable to delete booking");
 
-      setBookings((currentBookings) => currentBookings.filter((booking) => booking.id !== bookingId));
+      setBookings(currentBookings =>
+        currentBookings.filter(booking => booking.id !== bookingId)
+      );
       toast.success(copy.cancelSuccess);
     } catch (error) {
       console.error(error);
@@ -113,13 +171,17 @@ export default function CinemaHome() {
     }
   };
 
-  const filteredMovies = movies.filter((m) => {
-    const matchesSearch = m.title.toLowerCase().includes(search.toLowerCase()) || m.synopsis.toLowerCase().includes(search.toLowerCase());
-    const matchesGenre = selectedGenre === "Todos" || m.genre.toLowerCase().includes(selectedGenre.toLowerCase());
+  const filteredMovies = movies.filter(m => {
+    const matchesSearch =
+      m.title.toLowerCase().includes(search.toLowerCase()) ||
+      m.synopsis.toLowerCase().includes(search.toLowerCase());
+    const matchesGenre =
+      selectedGenre === "Todos" ||
+      m.genre.toLowerCase().includes(selectedGenre.toLowerCase());
     return matchesSearch && matchesGenre;
   });
 
-  const userBookings = bookings.filter((b) => b.userEmail === user?.email);
+  const userBookings = bookings.filter(b => b.userEmail === user?.email);
 
   return (
     <div className="min-h-screen relative pb-16">
@@ -128,13 +190,22 @@ export default function CinemaHome() {
       {/* Navigation Header */}
       <header className="sticky top-0 z-40 liquid-glass border-b border-white/10 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-          <div className="flex items-center space-x-3 cursor-pointer" onClick={() => setActiveTab("catalog")}>
+          <div
+            className="flex items-center space-x-3 cursor-pointer"
+            onClick={() => setActiveTab("catalog")}
+          >
             <div className="w-10 h-10 rounded-xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-cyan-400 shadow-[0_0_15px_rgba(14,165,233,0.4)]">
               <Film className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-lg font-black tracking-wider text-white">CINEMA RIWI</h2>
-              <p className="text-[10px] text-cyan-300">{language === "es" ? "Cartelera IMAX & Líquida" : "IMAX & Liquid Cinema"}</p>
+              <h2 className="text-lg font-black tracking-wider text-white">
+                CINEMA RIWI
+              </h2>
+              <p className="text-[10px] text-cyan-300">
+                {language === "es"
+                  ? "Cartelera IMAX & Líquida"
+                  : "IMAX & Liquid Cinema"}
+              </p>
             </div>
           </div>
 
@@ -158,13 +229,26 @@ export default function CinemaHome() {
               }`}
             >
               <Ticket className="w-3.5 h-3.5" />
-              <span>{copy.bookings} ({userBookings.length})</span>
+              <span>
+                {copy.bookings} ({userBookings.length})
+              </span>
+            </button>
+
+            <button
+              onClick={() => setLocation("/cart")}
+              className="water-btn px-4 py-2 rounded-xl text-xs font-semibold flex items-center space-x-1.5"
+              title="Abrir carrito"
+            >
+              <ShoppingBag className="w-3.5 h-3.5 text-cyan-400" />
+              <span>Carrito</span>
             </button>
 
             <button
               onClick={() => setLanguage(language === "es" ? "en" : "es")}
               className="water-btn px-3 py-2 rounded-xl text-xs font-semibold flex items-center space-x-1.5"
-              title={language === "es" ? "Cambiar a inglés" : "Switch to Spanish"}
+              title={
+                language === "es" ? "Cambiar a inglés" : "Switch to Spanish"
+              }
             >
               <Languages className="w-3.5 h-3.5 text-cyan-400" />
               <span>{language === "es" ? "EN" : "ES"}</span>
@@ -173,10 +257,16 @@ export default function CinemaHome() {
             <button
               onClick={() => setIsLocationOpen(true)}
               className="water-btn px-4 py-2 rounded-xl text-xs font-semibold flex items-center space-x-1.5"
-              title={language === "es" ? "Seleccionar ubicación" : "Select location"}
+              title={
+                language === "es" ? "Seleccionar ubicación" : "Select location"
+              }
             >
               <MapPin className="w-3.5 h-3.5 text-cyan-400" />
-              <span>{locationStore.confirmedCity || locationStore.selection.city || copy.location}</span>
+              <span>
+                {locationStore.confirmedCity ||
+                  locationStore.selection.city ||
+                  copy.location}
+              </span>
             </button>
 
             <button
@@ -191,7 +281,9 @@ export default function CinemaHome() {
               <div className="w-8 h-8 rounded-full bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-cyan-300 font-bold text-xs">
                 {user?.name?.[0] || "U"}
               </div>
-              <span className="text-xs font-medium text-slate-200">{user?.name}</span>
+              <span className="text-xs font-medium text-slate-200">
+                {user?.name}
+              </span>
             </div>
 
             <button
@@ -232,11 +324,15 @@ export default function CinemaHome() {
                   THOR
                 </h1>
                 <p className="text-sm text-slate-300 leading-relaxed">
-                  {language === "es" ? "El poderoso pero arrogante dios del trueno es desterrado a la Tierra, donde deberá demostrar que es digno de su legendario martillo, Mjölnir. Vive el estreno en IMAX." : "The mighty but arrogant god of thunder is banished to Earth, where he must prove he is worthy of his legendary hammer, Mjölnir. Experience the premiere in IMAX."}
+                  {language === "es"
+                    ? "El poderoso pero arrogante dios del trueno es desterrado a la Tierra, donde deberá demostrar que es digno de su legendario martillo, Mjölnir. Vive el estreno en IMAX."
+                    : "The mighty but arrogant god of thunder is banished to Earth, where he must prove he is worthy of his legendary hammer, Mjölnir. Experience the premiere in IMAX."}
                 </p>
                 <button
                   onClick={() => {
-                    const thor = movies.find((m) => m.title.toLowerCase().includes("thor"));
+                    const thor = movies.find(m =>
+                      m.title.toLowerCase().includes("thor")
+                    );
                     setSelectedMovieForBooking(thor || movies[0]);
                   }}
                   className="water-btn px-6 py-3 rounded-xl text-xs font-bold tracking-wider uppercase flex items-center space-x-2 shadow-lg"
@@ -254,14 +350,14 @@ export default function CinemaHome() {
                 <input
                   type="text"
                   value={search}
-                  onChange={(e) => setSearch(e.target.value)}
+                  onChange={e => setSearch(e.target.value)}
                   placeholder={copy.search}
                   className="liquid-glass-input w-full pl-10 pr-4 py-3 rounded-2xl text-sm"
                 />
               </div>
 
               <div className="flex flex-wrap gap-2 w-full md:w-auto">
-                {genreFilters.map((genre) => (
+                {genreFilters.map(genre => (
                   <button
                     key={genre.value}
                     onClick={() => setSelectedGenre(genre.value)}
@@ -279,13 +375,23 @@ export default function CinemaHome() {
 
             {/* Movie Catalog Grid */}
             {loading ? (
-              <div className="py-20 text-center text-slate-400">{copy.loading}</div>
+              <div className="py-20 text-center text-slate-400">
+                {copy.loading}
+              </div>
             ) : filteredMovies.length === 0 ? (
-              <div className="py-20 text-center text-slate-400">{copy.empty}</div>
+              <div className="py-20 text-center text-slate-400">
+                {copy.empty}
+              </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {filteredMovies.map((movie) => (
-                  <MovieCard key={movie.id} movie={movie} currency={currency} onSelect={(m) => setSelectedMovieForBooking(m)} selectLabel={copy.select} />
+                {filteredMovies.map(movie => (
+                  <MovieCard
+                    key={movie.id}
+                    movie={movie}
+                    currency={currency}
+                    onSelect={m => setSelectedMovieForBooking(m)}
+                    selectLabel={copy.select}
+                  />
                 ))}
               </div>
             )}
@@ -295,15 +401,21 @@ export default function CinemaHome() {
           <div className="space-y-6">
             <div className="flex items-center justify-between">
               <div>
-                <h2 className="text-2xl font-black text-white">{copy.bookingTitle}</h2>
-                <p className="text-xs text-slate-400 mt-1">{copy.bookingSubtitle}</p>
+                <h2 className="text-2xl font-black text-white">
+                  {copy.bookingTitle}
+                </h2>
+                <p className="text-xs text-slate-400 mt-1">
+                  {copy.bookingSubtitle}
+                </p>
               </div>
             </div>
 
             {userBookings.length === 0 ? (
               <div className="liquid-glass p-12 rounded-3xl text-center space-y-4 border border-white/10">
                 <Ticket className="w-12 h-12 text-slate-500 mx-auto" />
-                <h3 className="text-lg font-bold text-white">{copy.noBookings}</h3>
+                <h3 className="text-lg font-bold text-white">
+                  {copy.noBookings}
+                </h3>
                 <p className="text-xs text-slate-400 max-w-sm mx-auto">
                   {copy.noBookingsText}
                 </p>
@@ -316,18 +428,29 @@ export default function CinemaHome() {
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {userBookings.map((b) => (
-                  <div key={b.id} className="liquid-glass rounded-2xl p-6 border border-cyan-500/30 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-5">
-                    <img src={b.poster} alt={b.movieTitle} className="w-24 h-32 object-cover rounded-xl shadow-md shrink-0 mx-auto sm:mx-0" />
+                {userBookings.map(b => (
+                  <div
+                    key={b.id}
+                    className="liquid-glass rounded-2xl p-6 border border-cyan-500/30 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-5"
+                  >
+                    <img
+                      src={b.poster}
+                      alt={b.movieTitle}
+                      className="w-24 h-32 object-cover rounded-xl shadow-md shrink-0 mx-auto sm:mx-0"
+                    />
                     <div className="flex flex-col justify-between flex-grow space-y-3">
                       <div>
                         <div className="flex items-center justify-between">
                           <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
                             {copy.confirmed}
                           </span>
-                          <span className="text-xs text-slate-400">ID: #{b.id}</span>
+                          <span className="text-xs text-slate-400">
+                            ID: #{b.id}
+                          </span>
                         </div>
-                        <h3 className="text-base font-bold text-white mt-1.5">{b.movieTitle}</h3>
+                        <h3 className="text-base font-bold text-white mt-1.5">
+                          {b.movieTitle}
+                        </h3>
                         <div className="flex items-center space-x-3 text-xs text-slate-300 mt-1">
                           <span className="flex items-center space-x-1">
                             <Calendar className="w-3 h-3 text-cyan-400" />
@@ -341,9 +464,16 @@ export default function CinemaHome() {
                       </div>
 
                       <div className="pt-3 border-t border-white/10 flex flex-wrap items-center justify-between gap-3 text-xs">
-                        <span className="text-slate-400">{copy.seats}: <strong className="text-cyan-300">{b.seats.join(", ")}</strong></span>
+                        <span className="text-slate-400">
+                          {copy.seats}:{" "}
+                          <strong className="text-cyan-300">
+                            {b.seats.join(", ")}
+                          </strong>
+                        </span>
                         <div className="flex items-center gap-3">
-                          <span className="font-bold text-white">{formatPrice(b.total, currency)}</span>
+                          <span className="font-bold text-white">
+                            {formatPrice(b.total, currency)}
+                          </span>
                           <button
                             type="button"
                             onClick={() => handleCancelBooking(b.id)}
@@ -352,7 +482,11 @@ export default function CinemaHome() {
                             title={copy.cancelBooking}
                           >
                             <Trash2 className="h-3.5 w-3.5" />
-                            <span>{cancellingBookingId === b.id ? "..." : copy.cancelBooking}</span>
+                            <span>
+                              {cancellingBookingId === b.id
+                                ? "..."
+                                : copy.cancelBooking}
+                            </span>
                           </button>
                         </div>
                       </div>
@@ -372,15 +506,25 @@ export default function CinemaHome() {
           user={user}
           currency={currency}
           onClose={() => setSelectedMovieForBooking(null)}
-          onBookingSuccess={fetchData}
+          onCartCreated={() => {
+            setSelectedMovieForBooking(null);
+            setLocation("/cart");
+          }}
         />
       )}
 
       {/* Location Modal */}
-      <LocationModal isOpen={isLocationOpen} onClose={() => setIsLocationOpen(false)} />
+      <LocationModal
+        isOpen={isLocationOpen}
+        onClose={() => setIsLocationOpen(false)}
+      />
 
       {/* Support Modal */}
-      <SupportModal isOpen={isSupportOpen} onClose={() => setIsSupportOpen(false)} userEmail={user?.email} />
+      <SupportModal
+        isOpen={isSupportOpen}
+        onClose={() => setIsSupportOpen(false)}
+        userEmail={user?.email}
+      />
     </div>
   );
 }

@@ -8,7 +8,11 @@ interface DepartmentSelectorProps {
   onChange: (department: string) => void;
 }
 
-export function DepartmentSelector({ country, value, onChange }: DepartmentSelectorProps) {
+export function DepartmentSelector({
+  country,
+  value,
+  onChange,
+}: DepartmentSelectorProps) {
   const [departments, setDepartments] = useState<Department[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
@@ -37,13 +41,16 @@ export function DepartmentSelector({ country, value, onChange }: DepartmentSelec
 
   return (
     <div className="flex flex-col gap-1.5">
-      <label htmlFor="department" className="text-xs font-medium text-slate-300">
+      <label
+        htmlFor="department"
+        className="text-xs font-medium text-slate-300"
+      >
         Departamento / Estado
       </label>
       <select
         id="department"
         value={value ?? ""}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={e => onChange(e.target.value)}
         disabled={!country || loading}
         className="liquid-glass-input w-full px-4 py-3 rounded-xl text-sm disabled:opacity-50 disabled:cursor-not-allowed"
       >
@@ -54,7 +61,7 @@ export function DepartmentSelector({ country, value, onChange }: DepartmentSelec
               ? "Cargando departamentos..."
               : "Selecciona un departamento"}
         </option>
-        {departments.map((department) => (
+        {departments.map(department => (
           <option key={department.code} value={department.name}>
             {cleanStateName(department.name)}
           </option>

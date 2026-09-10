@@ -45,25 +45,14 @@ const MAIN_DEPARTMENTS: Record<string, string[]> = {
     "Panamá Oeste",
     "Panama Oeste",
   ],
-  "United States": [
-    "California",
-    "Texas",
-    "Florida",
-    "New York",
-    "Illinois",
-  ],
+  "United States": ["California", "Texas", "Florida", "New York", "Illinois"],
   // La API no trae "Ciudad de México" ni "Estado de México" como estados:
   // el estado es "Mexico City". Solo se dejan los que tienen ciudades.
   Mexico: ["Mexico City", "Jalisco", "Nuevo León", "Nuevo Leon"],
   México: ["Mexico City", "Jalisco", "Nuevo León", "Nuevo Leon"],
   // "Ciudad Autónoma de Buenos Aires" no trae ciudades en la API y su nombre
   // limpio se duplica con "Buenos Aires Province", por eso no se incluye.
-  Argentina: [
-    "Buenos Aires",
-    "Córdoba",
-    "Cordoba",
-    "Santa Fe",
-  ],
+  Argentina: ["Buenos Aires", "Córdoba", "Cordoba", "Santa Fe"],
 };
 
 // Esto en el proyecto real vendría de la base de datos, pero como esta
@@ -111,8 +100,20 @@ const ACTIVE_CITIES: Record<string, string[]> = {
     "Miami",
     "Chicago",
   ],
-  Mexico: ["Ciudad de México", "Ciudad de Mexico", "Mexico City", "Guadalajara", "Monterrey"],
-  México: ["Ciudad de México", "Ciudad de Mexico", "Mexico City", "Guadalajara", "Monterrey"],
+  Mexico: [
+    "Ciudad de México",
+    "Ciudad de Mexico",
+    "Mexico City",
+    "Guadalajara",
+    "Monterrey",
+  ],
+  México: [
+    "Ciudad de México",
+    "Ciudad de Mexico",
+    "Mexico City",
+    "Guadalajara",
+    "Monterrey",
+  ],
   Argentina: ["Buenos Aires", "Córdoba", "Cordoba", "Santa Fe"],
 };
 
@@ -130,7 +131,7 @@ function normalizeCityName(name: string): string {
 export function cleanStateName(name: string): string {
   return normalizeStateName(name)
     .split(" ")
-    .map((word) => (word ? word[0].toUpperCase() + word.slice(1) : word))
+    .map(word => (word ? word[0].toUpperCase() + word.slice(1) : word))
     .join(" ");
 }
 
@@ -206,9 +207,7 @@ export async function fetchDepartments(
 
   const departamentos: Department[] = json.data.states
     .filter((estado: any) =>
-      departamentosPrincipales.some((nombre) =>
-        stateMatches(nombre, estado.name)
-      )
+      departamentosPrincipales.some(nombre => stateMatches(nombre, estado.name))
     )
     .map((estado: any) => ({
       name: estado.name,
@@ -246,7 +245,7 @@ export async function fetchCities(
   const ciudades: City[] = json.data.map((nombreCiudad: string) => ({
     name: nombreCiudad,
     active: ciudadesActivas.some(
-      (activa) => normalizeCityName(activa) === normalizeCityName(nombreCiudad)
+      activa => normalizeCityName(activa) === normalizeCityName(nombreCiudad)
     ),
   }));
 

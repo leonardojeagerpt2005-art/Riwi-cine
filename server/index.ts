@@ -1,7 +1,7 @@
 import express from "express";
 import { createServer } from "http";
 import path from "path";
-import { fileURLToPath } from "url"; 
+import { fileURLToPath } from "url";
 import fs from "fs";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -15,6 +15,8 @@ const EMPTY_DB: Record<string, any[]> = {
   support: [],
   notifications: [],
   showtimes: [],
+  snacks: [],
+  carts: [],
   verificationTokens: [],
 };
 
@@ -63,27 +65,36 @@ async function startServer() {
       }
 
       if (user.verified) {
-        return res.status(409).json({ error: "El usuario ya está verificado." });
+        return res
+          .status(409)
+          .json({ error: "El usuario ya está verificado." });
       }
 
       const token = generateVerificationToken();
       const expiresAt = Date.now() + TOKEN_TTL_MS;
 
       db.verificationTokens = (db.verificationTokens || []).filter(
-        (t: any) => String(t.userId) !== String(userId),
+        (t: any) => String(t.userId) !== String(userId)
       );
-      db.verificationTokens.push({ id: Date.now(), userId: Number(userId), token, expiresAt });
+      db.verificationTokens.push({
+        id: Date.now(),
+        userId: Number(userId),
+        token,
+        expiresAt,
+      });
       writeDb(db);
 
       console.log(
-        `[AUTH EMAIL DISPATCH] To: ${user.email} | Code: ${token} | Expires: ${new Date(expiresAt).toISOString()}`,
+        `[AUTH EMAIL DISPATCH] To: ${user.email} | Code: ${token} | Expires: ${new Date(expiresAt).toISOString()}`
       );
 
-      return res
-        .status(200)
-        .json({ message: "Código de verificación enviado al correo del usuario." });
+      return res.status(200).json({
+        message: "Código de verificación enviado al correo del usuario.",
+      });
     } catch (e) {
-      return res.status(500).json({ error: "Error interno al procesar la solicitud." });
+      return res
+        .status(500)
+        .json({ error: "Error interno al procesar la solicitud." });
     }
   });
 
@@ -91,16 +102,20 @@ async function startServer() {
     try {
       const { userId, token } = req.body || {};
       if (userId === undefined || token === undefined || token === "") {
-        return res.status(400).json({ error: "El userId y el token son obligatorios." });
+        return res
+          .status(400)
+          .json({ error: "El userId y el token son obligatorios." });
       }
 
       const db = readDb();
       const record = (db.verificationTokens || []).find(
-        (t: any) => String(t.userId) === String(userId) && t.token === token,
+        (t: any) => String(t.userId) === String(userId) && t.token === token
       );
 
       if (!record || record.expiresAt < Date.now()) {
-        return res.status(400).json({ error: "Email o token inválidos / Token expirado." });
+        return res
+          .status(400)
+          .json({ error: "Email o token inválidos / Token expirado." });
       }
 
       const user = db.users.find((u: any) => u.id == userId);
@@ -108,12 +123,16 @@ async function startServer() {
         user.verified = true;
       }
 
-      db.verificationTokens = (db.verificationTokens || []).filter((t: any) => t.id !== record.id);
+      db.verificationTokens = (db.verificationTokens || []).filter(
+        (t: any) => t.id !== record.id
+      );
       writeDb(db);
 
       return res.status(200).json({ message: "Token validado con éxito." });
     } catch (e) {
-      return res.status(500).json({ error: "Error interno al verificar el token." });
+      return res
+        .status(500)
+        .json({ error: "Error interno al verificar el token." });
     }
   });
 
@@ -121,19 +140,298 @@ async function startServer() {
     try {
       const { email, password } = req.body || {};
       if (!email || !password) {
-        return res.status(400).json({ error: "El correo y la contraseña son obligatorios." });
+        return res
+          .status(400)
+          .json({ error: "El correo y la contraseña son obligatorios." });
       }
 
       const db = readDb();
-      const user = db.users.find((u: any) => u.email === email && u.password === password);
+      const user = db.users.find(
+        (u: any) => u.email === email && u.password === password
+      );
       if (!user) {
         return res.status(401).json({ error: "Credenciales inválidas." });
       }
 
       return res.status(200).json(user);
     } catch (e) {
-      return res.status(500).json({ error: "Error interno al iniciar sesión." });
+      return res
+        .status(500)
+        .json({ error: "Error interno al iniciar sesión." });
     }
+  });
+
+  // ===== CART AND CONCESSIONS =====
+  const getCartTotals = (cart: any) => {
+    const ticketsSubtotal = (cart.tickets || []).reduce(
+      (total: number, ticket: any) =>
+        total + ticket.unitPrice * ticket.quantity,
+      0
+    );
+    const snacksSubtotal = (cart.snacks || []).reduce(
+      (total: number, item: any) => total + item.unitPrice * item.quantity,
+      0
+    );
+    const subtotal = ticketsSubtotal + snacksSubtotal;
+    const promotionDiscount =
+      cart.promotionCode === "CINE10" ? subtotal * 0.1 : 0;
+    const membershipDiscount = cart.membershipCode ? subtotal * 0.15 : 0;
+    const giftcardDiscount = Math.min(
+      Number(cart.giftcardAmount) || 0,
+      subtotal
+    );
+    const discount = Math.min(
+      subtotal,
+      promotionDiscount + membershipDiscount + giftcardDiscount
+    );
+    const taxableTotal = subtotal - discount;
+    const tax = taxableTotal * 0.19;
+
+    return {
+      ticketsSubtotal,
+      snacksSubtotal,
+      subtotal,
+      promotionDiscount,
+      membershipDiscount,
+      giftcardDiscount,
+      discount,
+      tax,
+      total: taxableTotal + tax,
+    };
+  };
+
+  const normalizeCart = (cart: any) => ({
+    ...cart,
+    ...getCartTotals(cart),
+    updatedAt: new Date().toISOString(),
+  });
+
+  app.get("/api/snacks/categories", (_req, res) => {
+    const db = readDb();
+    const categories = Array.from(
+      new Set((db.snacks || []).map((snack: any) => snack.category))
+    );
+    res.json(categories);
+  });
+
+  app.get("/api/snacks", (req, res) => {
+    const db = readDb();
+    const category = String(req.query.category || "");
+    const snacks = (db.snacks || []).filter(
+      (snack: any) =>
+        !category || category === "Todos" || snack.category === category
+    );
+    res.json(snacks);
+  });
+
+  app.get("/api/cart", (req, res) => {
+    const db = readDb();
+    const userId = String(req.query.userId || "");
+    const cart = (db.carts || []).find(
+      (item: any) => String(item.userId) === userId && item.status === "active"
+    );
+    if (!cart) return res.status(404).json({ error: "Carrito no encontrado" });
+    if (new Date(cart.expiresAt).getTime() <= Date.now()) {
+      cart.status = "expired";
+      writeDb(db);
+      return res.status(410).json({ error: "El carrito ha expirado", cart });
+    }
+    return res.json(normalizeCart(cart));
+  });
+
+  app.post("/api/cart", (req, res) => {
+    const { userId, userEmail, tickets = [] } = req.body || {};
+    if (!userId || !Array.isArray(tickets) || tickets.length === 0) {
+      return res
+        .status(400)
+        .json({ error: "El usuario y las entradas son obligatorios" });
+    }
+    const db = readDb();
+    db.carts = (db.carts || []).filter(
+      (cart: any) =>
+        !(String(cart.userId) === String(userId) && cart.status === "active")
+    );
+    const cart = normalizeCart({
+      id: Date.now(),
+      userId,
+      userEmail,
+      tickets: tickets.map((ticket: any) => ({
+        ...ticket,
+        quantity: Math.max(1, Number(ticket.quantity) || 1),
+      })),
+      snacks: [],
+      status: "active",
+      expiresAt: new Date(Date.now() + 15 * 60 * 1000).toISOString(),
+      createdAt: new Date().toISOString(),
+    });
+    db.carts.push(cart);
+    writeDb(db);
+    return res.status(201).json(cart);
+  });
+
+  app.put("/api/cart", (req, res) => {
+    const db = readDb();
+    const cart = (db.carts || []).find(
+      (item: any) =>
+        String(item.userId) === String(req.body.userId) &&
+        item.status === "active"
+    );
+    if (!cart) return res.status(404).json({ error: "Carrito no encontrado" });
+    if (req.body.tickets) cart.tickets = req.body.tickets;
+    if (req.body.snacks) cart.snacks = req.body.snacks;
+    Object.assign(cart, normalizeCart(cart));
+    writeDb(db);
+    return res.json(cart);
+  });
+
+  app.put("/api/cart/:id", (req, res) => {
+    const db = readDb();
+    const cart = (db.carts || []).find(
+      (item: any) => String(item.id) === req.params.id
+    );
+    if (!cart) return res.status(404).json({ error: "Carrito no encontrado" });
+    if (req.body.tickets) cart.tickets = req.body.tickets;
+    if (req.body.snacks) cart.snacks = req.body.snacks;
+    const updated = normalizeCart(cart);
+    Object.assign(cart, updated);
+    writeDb(db);
+    return res.json(updated);
+  });
+
+  app.post("/api/cart/apply-membership", (req, res) => {
+    const db = readDb();
+    const cart = (db.carts || []).find(
+      (item: any) =>
+        String(item.userId) === String(req.body.userId) &&
+        item.status === "active"
+    );
+    if (!cart) return res.status(404).json({ error: "Carrito no encontrado" });
+    if (!req.body.code || req.body.code.toUpperCase() !== "RIWI15") {
+      return res.status(400).json({ error: "Membresía no válida" });
+    }
+    cart.membershipCode = req.body.code.toUpperCase();
+    Object.assign(cart, normalizeCart(cart));
+    writeDb(db);
+    return res.json(cart);
+  });
+
+  app.post("/api/cart/apply-giftcard", (req, res) => {
+    const db = readDb();
+    const cart = (db.carts || []).find(
+      (item: any) =>
+        String(item.userId) === String(req.body.userId) &&
+        item.status === "active"
+    );
+    if (!cart) return res.status(404).json({ error: "Carrito no encontrado" });
+    if (!req.body.code || req.body.code.toUpperCase() !== "CINE25") {
+      return res.status(400).json({ error: "Bono no válido" });
+    }
+    cart.giftcardCode = req.body.code.toUpperCase();
+    cart.giftcardAmount = 25;
+    Object.assign(cart, normalizeCart(cart));
+    writeDb(db);
+    return res.json(cart);
+  });
+
+  app.post("/api/cart/snacks", (req, res) => {
+    const db = readDb();
+    const cart = (db.carts || []).find(
+      (item: any) =>
+        String(item.userId) === String(req.body.userId) &&
+        item.status === "active"
+    );
+    const snack = (db.snacks || []).find(
+      (item: any) => String(item.id) === String(req.body.snackId)
+    );
+    const quantity = Number(req.body.quantity);
+    if (!cart || !snack)
+      return res
+        .status(404)
+        .json({ error: "Carrito o producto no encontrado" });
+    if (snack.stock <= 0)
+      return res.status(409).json({ error: "Producto agotado" });
+    if (!Number.isInteger(quantity) || quantity < 1)
+      return res.status(400).json({ error: "Cantidad no válida" });
+    const existing = cart.snacks.find((item: any) => item.snackId === snack.id);
+    if (existing)
+      existing.quantity = Math.min(existing.quantity + quantity, snack.stock);
+    else
+      cart.snacks.push({
+        snackId: snack.id,
+        name: snack.name,
+        unitPrice: snack.price,
+        quantity: Math.min(quantity, snack.stock),
+        image: snack.image,
+      });
+    Object.assign(cart, normalizeCart(cart));
+    writeDb(db);
+    return res.json(cart);
+  });
+
+  app.put("/api/cart/snacks/:snackId", (req, res) => {
+    const db = readDb();
+    const cart = (db.carts || []).find(
+      (item: any) =>
+        String(item.userId) === String(req.body.userId) &&
+        item.status === "active"
+    );
+    const line = cart?.snacks.find(
+      (item: any) => String(item.snackId) === req.params.snackId
+    );
+    const quantity = Number(req.body.quantity);
+    if (!cart || !line)
+      return res
+        .status(404)
+        .json({ error: "Producto no encontrado en el carrito" });
+    if (!Number.isInteger(quantity) || quantity < 1)
+      return res.status(400).json({ error: "Cantidad no válida" });
+    const snack = db.snacks.find((item: any) => item.id === line.snackId);
+    line.quantity = Math.min(quantity, snack?.stock || quantity);
+    Object.assign(cart, normalizeCart(cart));
+    writeDb(db);
+    return res.json(cart);
+  });
+
+  app.delete("/api/cart/snacks/:snackId", (req, res) => {
+    const db = readDb();
+    const cart = (db.carts || []).find(
+      (item: any) =>
+        String(item.userId) === String(req.query.userId) &&
+        item.status === "active"
+    );
+    if (!cart) return res.status(404).json({ error: "Carrito no encontrado" });
+    cart.snacks = cart.snacks.filter(
+      (item: any) => String(item.snackId) !== req.params.snackId
+    );
+    Object.assign(cart, normalizeCart(cart));
+    writeDb(db);
+    return res.json(cart);
+  });
+
+  app.delete("/api/cart/:id", (req, res) => {
+    const db = readDb();
+    const cart = (db.carts || []).find(
+      (item: any) => String(item.id) === req.params.id
+    );
+    if (!cart) return res.status(404).json({ error: "Carrito no encontrado" });
+    cart.status = "completed";
+    cart.completedAt = new Date().toISOString();
+    writeDb(db);
+    return res.json({ success: true });
+  });
+
+  app.delete("/api/cart", (req, res) => {
+    const db = readDb();
+    const cart = (db.carts || []).find(
+      (item: any) =>
+        String(item.userId) === String(req.body?.userId || req.query.userId) &&
+        item.status === "active"
+    );
+    if (!cart) return res.status(404).json({ error: "Carrito no encontrado" });
+    cart.status = "completed";
+    cart.completedAt = new Date().toISOString();
+    writeDb(db);
+    return res.json({ success: true });
   });
 
   // API Routes (Mocking JSON-Server)
@@ -142,7 +440,11 @@ async function startServer() {
     const resource = req.params.resource;
     if (db[resource]) {
       if (resource === "notifications" && req.query.userId !== undefined) {
-        res.json(db[resource].filter((i: any) => String(i.userId) === String(req.query.userId)));
+        res.json(
+          db[resource].filter(
+            (i: any) => String(i.userId) === String(req.query.userId)
+          )
+        );
       } else {
         res.json(db[resource]);
       }
@@ -186,7 +488,9 @@ async function startServer() {
 
       // If resource is support, log the email dispatch to yunpapicodsito@gmail.com
       if (resource === "support") {
-        console.log(`[SUPPORT EMAIL DISPATCH] To: yunpapicodsito@gmail.com | From: ${newItem.email} | Message: ${newItem.message}`);
+        console.log(
+          `[SUPPORT EMAIL DISPATCH] To: yunpapicodsito@gmail.com | From: ${newItem.email} | Message: ${newItem.message}`
+        );
         newItem.recipient = "yunpapicodsito@gmail.com";
         newItem.status = "Enviado con éxito a soporte";
       }
@@ -211,7 +515,11 @@ async function startServer() {
     if (db[resource]) {
       const index = db[resource].findIndex((i: any) => i.id == id);
       if (index !== -1) {
-        db[resource][index] = { ...db[resource][index], ...req.body, id: Number(id) };
+        db[resource][index] = {
+          ...db[resource][index],
+          ...req.body,
+          id: Number(id),
+        };
         writeDb(db);
         res.json(db[resource][index]);
       } else {

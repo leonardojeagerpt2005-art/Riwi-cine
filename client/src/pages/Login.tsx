@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "wouter";
-import { Film, Mail, Lock, ArrowRight, LifeBuoy, AlertCircle, Sparkles } from "lucide-react";
+import {
+  Film,
+  Mail,
+  Lock,
+  ArrowRight,
+  LifeBuoy,
+  AlertCircle,
+  Sparkles,
+} from "lucide-react";
 import { SupportModal } from "../components/SupportModal";
 import { VideoBackground } from "../components/VideoBackground";
 import { LocationModal } from "../components/location/LocationModal";
@@ -22,8 +30,10 @@ export default function Login() {
     try {
       const res = await fetch("/api/users");
       const users = await res.json();
-      
-      const found = users.find((u: any) => u.email === email && u.password === password);
+
+      const found = users.find(
+        (u: any) => u.email === email && u.password === password
+      );
       if (found) {
         localStorage.setItem("cinema_user", JSON.stringify(found));
         setIsLocationOpen(true);
@@ -57,8 +67,12 @@ export default function Login() {
           <div className="icon-float w-14 h-14 mx-auto rounded-2xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-cyan-400 mb-3 shadow-[0_0_20px_rgba(14,165,233,0.4)]">
             <Film className="w-7 h-7" />
           </div>
-          <h1 className="text-2xl font-black tracking-wider text-white">CINEMA RIWI</h1>
-          <p className="text-xs text-cyan-300/80 mt-1">Sumérgete en la experiencia cinematográfica líquida</p>
+          <h1 className="text-2xl font-black tracking-wider text-white">
+            CINEMA RIWI
+          </h1>
+          <p className="text-xs text-cyan-300/80 mt-1">
+            Sumérgete en la experiencia cinematográfica líquida
+          </p>
         </div>
 
         {error && (
@@ -70,14 +84,16 @@ export default function Login() {
 
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
-            <label className="block text-xs font-medium text-slate-300 mb-1.5">Correo Electrónico</label>
+            <label className="block text-xs font-medium text-slate-300 mb-1.5">
+              Correo Electrónico
+            </label>
             <div className="relative">
               <Mail className="icon-float icon-float-delay-1 absolute left-3.5 top-3.5 w-4 h-4 text-cyan-400" />
               <input
                 type="email"
                 required
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={e => setEmail(e.target.value)}
                 placeholder="tu@correo.com"
                 className="liquid-glass-input w-full pl-10 pr-4 py-3 rounded-xl text-sm"
               />
@@ -86,7 +102,9 @@ export default function Login() {
 
           <div>
             <div className="flex items-center justify-between mb-1.5">
-              <label className="text-xs font-medium text-slate-300">Contraseña</label>
+              <label className="text-xs font-medium text-slate-300">
+                Contraseña
+              </label>
               <button
                 type="button"
                 onClick={handleDemoLogin}
@@ -102,7 +120,7 @@ export default function Login() {
                 type="password"
                 required
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={e => setPassword(e.target.value)}
                 placeholder="••••••••"
                 className="liquid-glass-input w-full pl-10 pr-4 py-3 rounded-xl text-sm"
               />
@@ -122,7 +140,10 @@ export default function Login() {
         <div className="mt-6 text-center space-y-3">
           <p className="text-xs text-slate-400">
             ¿No tienes cuenta?{" "}
-            <Link href="/register" className="text-cyan-400 font-semibold hover:underline">
+            <Link
+              href="/register"
+              className="text-cyan-400 font-semibold hover:underline"
+            >
               Regístrate aquí
             </Link>
           </p>
@@ -137,7 +158,11 @@ export default function Login() {
         </div>
       </div>
 
-      <SupportModal isOpen={isSupportOpen} onClose={() => setIsSupportOpen(false)} userEmail={email} />
+      <SupportModal
+        isOpen={isSupportOpen}
+        onClose={() => setIsSupportOpen(false)}
+        userEmail={email}
+      />
       <LocationModal isOpen={isLocationOpen} onClose={handleLocationClose} />
     </div>
   );

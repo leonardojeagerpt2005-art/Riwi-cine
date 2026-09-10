@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { X, Send, Mail, AlertTriangle, CheckCircle2, LifeBuoy } from "lucide-react";
+import {
+  X,
+  Send,
+  Mail,
+  AlertTriangle,
+  CheckCircle2,
+  LifeBuoy,
+} from "lucide-react";
 
 interface SupportModalProps {
   isOpen: boolean;
@@ -7,10 +14,16 @@ interface SupportModalProps {
   userEmail?: string;
 }
 
-export function SupportModal({ isOpen, onClose, userEmail = "" }: SupportModalProps) {
+export function SupportModal({
+  isOpen,
+  onClose,
+  userEmail = "",
+}: SupportModalProps) {
   const [email, setEmail] = useState(userEmail);
   const [message, setMessage] = useState("");
-  const [subject, setSubject] = useState("Incidencia / Soporte Técnico Cinema Riwi");
+  const [subject, setSubject] = useState(
+    "Incidencia / Soporte Técnico Cinema Riwi"
+  );
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
@@ -30,7 +43,10 @@ export function SupportModal({ isOpen, onClose, userEmail = "" }: SupportModalPr
       // Envío real a soporte vía Formspree
       const formspreeRes = await fetch("https://formspree.io/f/xjybyjep", {
         method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
         body: JSON.stringify({
           email,
           subject,
@@ -83,17 +99,31 @@ export function SupportModal({ isOpen, onClose, userEmail = "" }: SupportModalPr
             <LifeBuoy className="w-6 h-6 animate-pulse" />
           </div>
           <div>
-            <h3 className="text-xl font-bold text-white tracking-wide">Soporte Técnico Cinema Riwi</h3>
-            <p className="text-xs text-cyan-300/80">Tu mensaje será enviado a: <span className="font-semibold text-white">yunpapicodsito@gmail.com</span></p>
+            <h3 className="text-xl font-bold text-white tracking-wide">
+              Soporte Técnico Cinema Riwi
+            </h3>
+            <p className="text-xs text-cyan-300/80">
+              Tu mensaje será enviado a:{" "}
+              <span className="font-semibold text-white">
+                yunpapicodsito@gmail.com
+              </span>
+            </p>
           </div>
         </div>
 
         {success ? (
           <div className="py-12 text-center flex flex-col items-center justify-center space-y-4">
             <CheckCircle2 className="w-16 h-16 text-emerald-400 animate-bounce" />
-            <h4 className="text-lg font-semibold text-white">¡Incidencia enviada con éxito!</h4>
+            <h4 className="text-lg font-semibold text-white">
+              ¡Incidencia enviada con éxito!
+            </h4>
             <p className="text-sm text-slate-300 max-w-xs">
-              Hemos registrado tu queja y se ha despachado el reporte correctamente a <strong className="text-cyan-300">yunpapicodsito@gmail.com</strong>. Te responderemos pronto.
+              Hemos registrado tu queja y se ha despachado el reporte
+              correctamente a{" "}
+              <strong className="text-cyan-300">
+                yunpapicodsito@gmail.com
+              </strong>
+              . Te responderemos pronto.
             </p>
           </div>
         ) : (
@@ -106,14 +136,16 @@ export function SupportModal({ isOpen, onClose, userEmail = "" }: SupportModalPr
             )}
 
             <div>
-              <label className="block text-xs font-medium text-slate-300 mb-1.5">Tu Correo Electrónico</label>
+              <label className="block text-xs font-medium text-slate-300 mb-1.5">
+                Tu Correo Electrónico
+              </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-3.5 w-4 h-4 text-cyan-400" />
                 <input
                   type="email"
                   required
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={e => setEmail(e.target.value)}
                   placeholder="tucorreo@ejemplo.com"
                   className="liquid-glass-input w-full pl-10 pr-4 py-3 rounded-xl text-sm"
                 />
@@ -121,23 +153,27 @@ export function SupportModal({ isOpen, onClose, userEmail = "" }: SupportModalPr
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-slate-300 mb-1.5">Asunto</label>
+              <label className="block text-xs font-medium text-slate-300 mb-1.5">
+                Asunto
+              </label>
               <input
                 type="text"
                 required
                 value={subject}
-                onChange={(e) => setSubject(e.target.value)}
+                onChange={e => setSubject(e.target.value)}
                 className="liquid-glass-input w-full px-4 py-3 rounded-xl text-sm"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-slate-300 mb-1.5">Descripción de la Queja / Problema</label>
+              <label className="block text-xs font-medium text-slate-300 mb-1.5">
+                Descripción de la Queja / Problema
+              </label>
               <textarea
                 required
                 rows={4}
                 value={message}
-                onChange={(e) => setMessage(e.target.value)}
+                onChange={e => setMessage(e.target.value)}
                 placeholder="Describe detalladamente qué inconveniente tuviste al iniciar sesión, registrarte o realizar una reserva..."
                 className="liquid-glass-input w-full px-4 py-3 rounded-xl text-sm resize-none"
               />
