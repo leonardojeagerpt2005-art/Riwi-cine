@@ -34,7 +34,13 @@ export default function CinemaHome() {
   const [bookings, setBookings] = useState<any[]>([]);
   const [search, setSearch] = useState("");
   const [selectedGenre, setSelectedGenre] = useState("Todos");
-  const [activeTab, setActiveTab] = useState<"catalog" | "bookings">("catalog");
+  const [activeTab, setActiveTab] = useState<"catalog" | "bookings">(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("tab") === "bookings") return "bookings";
+    }
+    return "catalog";
+  });
 
   const [selectedMovieForBooking, setSelectedMovieForBooking] =
     useState<any>(null);
