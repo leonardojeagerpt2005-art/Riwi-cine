@@ -320,6 +320,15 @@
       "date": "2026-08-10T16:27:52.084Z",
       "recipient": "yunpapicodsito@gmail.com",
       "status": "Enviado con éxito a soporte"
+    },
+    {
+      "id": 1789403282721,
+      "email": "santiagotaylor54321@gmail.com",
+      "subject": "Incidencia / Soporte Técnico Cinema Riwi",
+      "message": "cule pagina bacana",
+      "date": "2026-09-14T16:28:02.718Z",
+      "recipient": "yunpapicodsito@gmail.com",
+      "status": "Enviado con éxito a soporte"
     }
   ],
   "notifications": [
@@ -712,12 +721,12 @@
           "image": "https://images.unsplash.com/photo-1513456852971-30c0b8199d4d?auto=format&fit=crop&w=600&q=80"
         }
       ],
-      "status": "active",
-      "expiresAt": "2026-09-10T17:00:05.600Z",
-      "createdAt": "2026-09-10T16:45:05.600Z",
-      "ticketsSubtotal": 11,
-      "snacksSubtotal": 6,
-      "subtotal": 17,
+      "status": "expired",
+      "expiresAt": "2026-09-14T16:13:49.936Z",
+      "createdAt": "2026-09-14T15:58:49.936Z",
+      "ticketsSubtotal": 12.5,
+      "snacksSubtotal": 18,
+      "subtotal": 30.5,
       "promotionDiscount": 0,
       "membershipDiscount": 0,
       "giftcardDiscount": 0,
