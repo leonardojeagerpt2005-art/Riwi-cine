@@ -53,6 +53,7 @@ export default function CinemaHome() {
     language === "es"
       ? {
           billboard: "Cartelera",
+          upcoming: "Próximos Estrenos",
           bookings: "Mis Reservas",
           location: "Ubicación",
           support: "Soporte",
@@ -80,6 +81,7 @@ export default function CinemaHome() {
         }
       : {
           billboard: "Now Showing",
+          upcoming: "Coming Soon",
           bookings: "My Bookings",
           location: "Location",
           support: "Support",
@@ -212,13 +214,21 @@ export default function CinemaHome() {
           <div className="flex items-center space-x-3">
             <button
               onClick={() => setActiveTab("catalog")}
-              className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all ${
+              className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
                 activeTab === "catalog"
                   ? "bg-cyan-500 text-white shadow-lg shadow-cyan-500/30"
                   : "bg-white/5 text-slate-300 hover:bg-white/10 border border-white/10"
               }`}
             >
               {copy.billboard}
+            </button>
+            <button
+              onClick={() => setLocation("/proximos-estrenos")}
+              className="bg-white/5 text-slate-300 hover:bg-white/10 hover:text-white border border-white/10 hover:border-cyan-500/30 px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center space-x-1.5 cursor-pointer"
+              title={language === "es" ? "Ver próximos estrenos" : "View coming soon"}
+            >
+              <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+              <span>{copy.upcoming}</span>
             </button>
             <button
               onClick={() => setActiveTab("bookings")}

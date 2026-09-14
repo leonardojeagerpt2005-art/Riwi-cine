@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Link } from "react-router";
+import { Link } from "wouter";
 import { Film, Sparkles, Clapperboard, ArrowLeft, Search, Filter, X } from "lucide-react";
 import { VideoBackground } from "../components/VideoBackground";
 import { useUpcomingMovies } from "../components/upcoming/useUpcomingMovies";
@@ -40,9 +40,9 @@ export default function UpcomingReleasesPage() {
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
           <div className="flex items-center space-x-3">
             <Link
-              to="/"
+              href="/cinema"
               className="w-10 h-10 rounded-xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-cyan-400 hover:bg-cyan-500/30 transition-colors shadow-[0_0_15px_rgba(14,165,233,0.3)]"
-              title="Volver al inicio"
+              title="Volver a la cartelera"
             >
               <Film className="w-5 h-5" />
             </Link>
@@ -53,11 +53,11 @@ export default function UpcomingReleasesPage() {
           </div>
 
           <Link
-            to="/"
+            href="/cinema"
             className="water-btn px-4 py-2 rounded-xl text-xs font-semibold flex items-center space-x-2 shadow-sm"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span className="hidden sm:inline">Iniciar Sesión</span>
+            <span className="hidden sm:inline">Volver a Cartelera</span>
           </Link>
         </div>
       </header>

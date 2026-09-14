@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router";
+import { useLocation } from "wouter";
 import type { UpcomingMovie } from "./interface";
 import { TrailerModal } from "./TrailerModal";
 
@@ -12,12 +12,12 @@ export const UpcomingCard: React.FC<UpcomingCardProps> = ({
   movie,
   onWatchTrailer,
 }) => {
-  const navigate = useNavigate();
+  const [, setLocation] = useLocation();
   const [isTrailerModalOpen, setIsTrailerModalOpen] = useState(false);
 
   // Navegación a la página de detalles al hacer click en la card
   const handleCardClick = () => {
-    navigate(`/proximos-estrenos/${movie.id}`);
+    setLocation(`/proximos-estrenos/${movie.id}`);
   };
 
   // Apertura del modal al hacer click en "Ver trailer"

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router";
+import { Link } from "wouter";
 import { X, Film, Sparkles, ArrowRight } from "lucide-react";
 import type { UpcomingMovie } from "./interface";
 
@@ -104,7 +104,7 @@ export const TrailerModal: React.FC<TrailerModalProps> = ({
               Cerrar
             </button>
             <Link
-              to={`/proximos-estrenos/${movie.id}`}
+              href={`/proximos-estrenos/${movie.id}`}
               onClick={onClose}
               className="water-btn px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center space-x-1.5 shadow-md"
             >

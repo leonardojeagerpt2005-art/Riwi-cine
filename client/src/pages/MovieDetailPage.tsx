@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router";
+import { useParams, Link } from "wouter";
 import {
   ArrowLeft,
   Calendar,
@@ -45,7 +45,7 @@ export default function MovieDetailPage() {
             No pudimos encontrar los detalles del estreno solicitado. Puede que haya sido removido o el enlace sea incorrecto.
           </p>
           <Link
-            to="/proximos-estrenos"
+            href="/proximos-estrenos"
             className="water-btn w-full py-3 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center space-x-2"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -64,17 +64,17 @@ export default function MovieDetailPage() {
       <header className="sticky top-0 z-40 backdrop-blur-xl bg-slate-950/70 border-b border-white/10 px-4 sm:px-8 py-3.5 transition-all">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
           <Link
-            to="/proximos-estrenos"
+            href="/proximos-estrenos"
             className="water-btn px-4 py-2 rounded-xl text-xs font-semibold flex items-center space-x-2 shadow-sm"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Volver al listado</span>
           </Link>
 
-          <div className="flex items-center space-x-2 text-slate-300 text-xs">
+          <Link href="/cinema" className="flex items-center space-x-2 text-slate-300 text-xs hover:text-white transition-colors cursor-pointer">
             <Film className="w-4 h-4 text-cyan-400" />
             <span className="font-bold text-white tracking-wider">CINEMA RIWI</span>
-          </div>
+          </Link>
         </div>
       </header>
 
@@ -178,7 +178,7 @@ export default function MovieDetailPage() {
                 {/* Botones de acción */}
                 <div className="pt-4 border-t border-white/10 flex flex-wrap gap-4 items-center">
                   <Link
-                    to="/proximos-estrenos"
+                    href="/proximos-estrenos"
                     className="water-btn px-6 py-3 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center space-x-2"
                   >
                     <ArrowLeft className="w-4 h-4" />

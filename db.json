@@ -309,6 +309,77 @@
       ],
       "paymentMethod": "pse",
       "createdAt": "2026-09-10T16:33:01.495Z"
+    },
+    {
+      "id": 1789400554262,
+      "userId": 1,
+      "userEmail": "demo@riwicinema.com",
+      "movieId": 1,
+      "movieTitle": "Thor",
+      "poster": "https://image.tmdb.org/t/p/w500/prSfAi1xGrhLQNxVSUFh61xQ4Qy.jpg",
+      "showtime": "14:30",
+      "date": "Hoy, 10 Ago",
+      "seats": [
+        "C4",
+        "C5",
+        "E7"
+      ],
+      "total": 32.13,
+      "snacks": [
+        {
+          "snackId": 2,
+          "name": "Nachos Supreme",
+          "unitPrice": 6,
+          "quantity": 1,
+          "image": "https://images.unsplash.com/photo-1513456852971-30c0b8199d4d?auto=format&fit=crop&w=600&q=80"
+        },
+        {
+          "snackId": 1,
+          "name": "Combo Clásico",
+          "unitPrice": 8.5,
+          "quantity": 1,
+          "image": "https://images.unsplash.com/photo-1585647347384-2593bc35786b?auto=format&fit=crop&w=600&q=80"
+        }
+      ],
+      "paymentMethod": "pse",
+      "createdAt": "2026-09-14T15:42:34.258Z"
+    },
+    {
+      "id": 1789401491063,
+      "userId": 1,
+      "userEmail": "demo@riwicinema.com",
+      "movieId": 1,
+      "movieTitle": "Thor",
+      "poster": "https://image.tmdb.org/t/p/w500/prSfAi1xGrhLQNxVSUFh61xQ4Qy.jpg",
+      "showtime": "14:30",
+      "date": "Hoy, 10 Ago",
+      "seats": [
+        "B4",
+        "B5",
+        "C5",
+        "D2",
+        "D3",
+        "D4"
+      ],
+      "total": 32.13,
+      "snacks": [
+        {
+          "snackId": 2,
+          "name": "Nachos Supreme",
+          "unitPrice": 6,
+          "quantity": 1,
+          "image": "https://images.unsplash.com/photo-1513456852971-30c0b8199d4d?auto=format&fit=crop&w=600&q=80"
+        },
+        {
+          "snackId": 1,
+          "name": "Combo Clásico",
+          "unitPrice": 8.5,
+          "quantity": 1,
+          "image": "https://images.unsplash.com/photo-1585647347384-2593bc35786b?auto=format&fit=crop&w=600&q=80"
+        }
+      ],
+      "paymentMethod": "card",
+      "createdAt": "2026-09-14T15:58:11.061Z"
     }
   ],
   "support": [
@@ -685,21 +756,22 @@
       "completedAt": "2026-09-10T16:33:01.507Z"
     },
     {
-      "id": 1789058705600,
+      "id": 1789400546005,
       "userId": 1,
       "userEmail": "demo@riwicinema.com",
       "tickets": [
         {
-          "movieId": 2,
-          "movieTitle": "El Secreto del Abismo",
-          "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRD8fd5MFF7Lmng6za5mD7VERshs7YNAX9S2Tw07yki2g&s",
-          "showtime": "15:00",
+          "movieId": 1,
+          "movieTitle": "Thor",
+          "poster": "https://image.tmdb.org/t/p/w500/prSfAi1xGrhLQNxVSUFh61xQ4Qy.jpg",
+          "showtime": "14:30",
           "date": "Hoy, 10 Ago",
           "seats": [
-            "B4",
-            "B5"
+            "C4",
+            "C5",
+            "E7"
           ],
-          "unitPrice": 11,
+          "unitPrice": 12.5,
           "quantity": 1
         }
       ],
@@ -710,21 +782,143 @@
           "unitPrice": 6,
           "quantity": 1,
           "image": "https://images.unsplash.com/photo-1513456852971-30c0b8199d4d?auto=format&fit=crop&w=600&q=80"
+        },
+        {
+          "snackId": 1,
+          "name": "Combo Clásico",
+          "unitPrice": 8.5,
+          "quantity": 1,
+          "image": "https://images.unsplash.com/photo-1585647347384-2593bc35786b?auto=format&fit=crop&w=600&q=80"
         }
       ],
-      "status": "active",
-      "expiresAt": "2026-09-10T17:00:05.600Z",
-      "createdAt": "2026-09-10T16:45:05.600Z",
-      "ticketsSubtotal": 11,
-      "snacksSubtotal": 6,
-      "subtotal": 17,
+      "status": "completed",
+      "expiresAt": "2026-09-14T15:57:26.005Z",
+      "createdAt": "2026-09-14T15:42:26.005Z",
+      "ticketsSubtotal": 12.5,
+      "snacksSubtotal": 14.5,
+      "subtotal": 27,
       "promotionDiscount": 0,
       "membershipDiscount": 0,
       "giftcardDiscount": 0,
       "discount": 0,
-      "tax": 3.23,
-      "total": 20.23,
-      "updatedAt": "2026-09-10T16:45:36.623Z"
+      "tax": 5.13,
+      "total": 32.13,
+      "updatedAt": "2026-09-14T15:42:29.213Z",
+      "completedAt": "2026-09-14T15:42:34.269Z"
+    },
+    {
+      "id": 1789401481679,
+      "userId": 1,
+      "userEmail": "demo@riwicinema.com",
+      "tickets": [
+        {
+          "movieId": 1,
+          "movieTitle": "Thor",
+          "poster": "https://image.tmdb.org/t/p/w500/prSfAi1xGrhLQNxVSUFh61xQ4Qy.jpg",
+          "showtime": "14:30",
+          "date": "Hoy, 10 Ago",
+          "seats": [
+            "B4",
+            "B5",
+            "C5",
+            "D2",
+            "D3",
+            "D4"
+          ],
+          "unitPrice": 12.5,
+          "quantity": 1
+        }
+      ],
+      "snacks": [
+        {
+          "snackId": 2,
+          "name": "Nachos Supreme",
+          "unitPrice": 6,
+          "quantity": 1,
+          "image": "https://images.unsplash.com/photo-1513456852971-30c0b8199d4d?auto=format&fit=crop&w=600&q=80"
+        },
+        {
+          "snackId": 1,
+          "name": "Combo Clásico",
+          "unitPrice": 8.5,
+          "quantity": 1,
+          "image": "https://images.unsplash.com/photo-1585647347384-2593bc35786b?auto=format&fit=crop&w=600&q=80"
+        }
+      ],
+      "status": "completed",
+      "expiresAt": "2026-09-14T16:13:01.679Z",
+      "createdAt": "2026-09-14T15:58:01.679Z",
+      "ticketsSubtotal": 12.5,
+      "snacksSubtotal": 14.5,
+      "subtotal": 27,
+      "promotionDiscount": 0,
+      "membershipDiscount": 0,
+      "giftcardDiscount": 0,
+      "discount": 0,
+      "tax": 5.13,
+      "total": 32.13,
+      "updatedAt": "2026-09-14T15:58:04.719Z",
+      "completedAt": "2026-09-14T15:58:11.073Z"
+    },
+    {
+      "id": 1789401529936,
+      "userId": 1,
+      "userEmail": "demo@riwicinema.com",
+      "tickets": [
+        {
+          "movieId": 1,
+          "movieTitle": "Thor",
+          "poster": "https://image.tmdb.org/t/p/w500/prSfAi1xGrhLQNxVSUFh61xQ4Qy.jpg",
+          "showtime": "14:30",
+          "date": "Hoy, 10 Ago",
+          "seats": [
+            "B4",
+            "B5",
+            "B6",
+            "C4",
+            "C5",
+            "C6"
+          ],
+          "unitPrice": 12.5,
+          "quantity": 1
+        }
+      ],
+      "snacks": [
+        {
+          "snackId": 1,
+          "name": "Combo Clásico",
+          "unitPrice": 8.5,
+          "quantity": 1,
+          "image": "https://images.unsplash.com/photo-1585647347384-2593bc35786b?auto=format&fit=crop&w=600&q=80"
+        },
+        {
+          "snackId": 2,
+          "name": "Nachos Supreme",
+          "unitPrice": 6,
+          "quantity": 1,
+          "image": "https://images.unsplash.com/photo-1513456852971-30c0b8199d4d?auto=format&fit=crop&w=600&q=80"
+        },
+        {
+          "snackId": 4,
+          "name": "Bebida Refrescante",
+          "unitPrice": 3.5,
+          "quantity": 1,
+          "image": "https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=600&q=80"
+        }
+      ],
+      "status": "active",
+      "expiresAt": "2026-09-14T16:13:49.936Z",
+      "createdAt": "2026-09-14T15:58:49.936Z",
+      "ticketsSubtotal": 12.5,
+      "snacksSubtotal": 18,
+      "subtotal": 30.5,
+      "promotionDiscount": 0,
+      "membershipDiscount": 0,
+      "giftcardDiscount": 0,
+      "discount": 0,
+      "tax": 5.795,
+      "total": 36.295,
+      "updatedAt": "2026-09-14T15:58:53.910Z"
     }
   ],
   "verificationTokens": []

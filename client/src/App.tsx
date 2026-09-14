@@ -8,6 +8,8 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import CinemaHome from "./pages/CinemaHome";
 import Cart from "./pages/Cart";
+import UpcomingReleasesPage from "./pages/UpcomingReleasesPage";
+import MovieDetailPage from "./pages/MovieDetailPage";
 
 function Router() {
   return (
@@ -17,6 +19,10 @@ function Router() {
       <Route path="/register" component={Register} />
       <Route path="/cinema" component={CinemaHome} />
       <Route path="/cart" component={Cart} />
+      <Route path="/proximos-estrenos" component={UpcomingReleasesPage} />
+      <Route path="/proximos-estrenos/:id" component={MovieDetailPage} />
+      <Route path="/coming-soon" component={UpcomingReleasesPage} />
+      <Route path="/coming-soon/:id" component={MovieDetailPage} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>
