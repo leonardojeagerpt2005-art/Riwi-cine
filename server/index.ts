@@ -555,7 +555,7 @@ async function startServer() {
     res.sendFile(path.join(staticPath, "index.html"));
   });
 
-  const port = process.env.PORT || 3000;
+  const port = process.env.PORT || 3001;
 
   server.listen(port, () => {
     console.log(`Server running on http://localhost:${port}/`);
