@@ -1,0 +1,308 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}
+
+:root {
+  --primary: #0ea5e9;
+  --primary-foreground: #ffffff;
+  --radius: 0.75rem;
+  --background: #060913;
+  --foreground: #f8fafc;
+  --card: rgba(18, 24, 38, 0.65);
+  --card-foreground: #f8fafc;
+  --popover: rgba(35, 64, 131, 0.9);
+  --popover-foreground: #f8fafc;
+  --secondary: rgba(255, 255, 255, 0.1);
+  --secondary-foreground: #f8fafc;
+  --muted: rgba(255, 255, 255, 0.05);
+  --muted-foreground: #94a3b8;
+  --accent: rgba(20, 143, 204, 0.73);
+  --accent-foreground: #38bdf8;
+  --destructive: rgba(239, 68, 68, 0.2);
+  --destructive-foreground: #fca5a5;
+  --border: rgba(255, 255, 255, 0.12);
+  --input: rgba(255, 255, 255, 0.08);
+  --ring: #0ea5e9;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased selection:bg-cyan-500 selection:text-white;
+    background: radial-gradient(
+      circle at 50% 10%,
+      #1e1b4b 0%,
+      #090d16 50%,
+      #030712 100%
+    );
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+}
+
+/* Liquid Glass Card Styling — iOS-style liquid glass:
+   real refraction relies on a saturated blur + a thin specular edge
+   instead of extra layered blurs, so it stays cheap to paint.
+   `transform: translateZ(0)` promotes the card to its own GPU layer
+   so the blur is computed once and composited, not recalculated
+   every frame the video underneath keeps playing. */
+.liquid-glass {
+  position: relative;
+  background: rgba(18, 24, 38, 0.5);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow:
+    0 25px 50px -12px rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.4);
+  isolation: isolate;
+  contain: layout style paint;
+  transform: translateZ(0);
+}
+
+/* Thin gradient ring that catches "light" along the top-left edge,
+   the way real glass bends light along its rim. Pure gradient +
+   mask, no blur, virtually free to render. */
+.liquid-glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(255, 255, 255, 0.08) 28%,
+    rgba(255, 255, 255, 0) 55%,
+    rgba(56, 189, 248, 0.18) 100%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Soft sheen across the top of the panel, like light sliding off a
+   curved surface — animates opacity/transform only. */
+.liquid-glass::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 8%;
+  right: 8%;
+  height: 40%;
+  border-radius: inherit;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.14),
+    rgba(255, 255, 255, 0) 100%
+  );
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.liquid-glass-input {
+  position: relative;
+  background: rgba(22, 34, 53, 0.42);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  transition:
+    border-color 0.3s cubic-bezier(0.23, 1, 0.32, 1),
+    box-shadow 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.liquid-glass-input:focus {
+  border-color: rgba(91, 14, 233, 0.8);
+  box-shadow:
+    0 0 20px rgba(14, 72, 233, 0.3),
+    inset 0 1px 2px rgba(0, 0, 0, 0.3);
+  outline: none;
+}
+
+/* Water Wave Animated Buttons */
+.water-btn {
+  position: relative;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.water-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.25),
+    transparent
+  );
+  transition: 0.6s ease;
+}
+
+.water-btn:hover::before {
+  left: 100%;
+}
+
+.water-btn:hover {
+  background: rgba(14, 165, 233, 0.35);
+  border-color: rgba(56, 189, 248, 0.6);
+  box-shadow:
+    0 0 25px rgba(14, 165, 233, 0.4),
+    inset 0 0 15px rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.water-btn:active {
+  transform: scale(0.97);
+}
+
+/* Cinematic Background Beam Animation */
+@keyframes cinematic-beam {
+  0% {
+    transform: rotate(-15deg) translateY(-20px);
+    opacity: 0.3;
+  }
+  50% {
+    transform: rotate(15deg) translateY(20px);
+    opacity: 0.6;
+  }
+  100% {
+    transform: rotate(-15deg) translateY(-20px);
+    opacity: 0.3;
+  }
+}
+
+.cinematic-beam-bg {
+  animation: cinematic-beam 12s ease-in-out infinite;
+}
+
+@keyframes float-particle {
+  0% {
+    transform: translateY(0px) translateX(0px);
+    opacity: 0.2;
+  }
+  50% {
+    transform: translateY(-40px) translateX(20px);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(0px) translateX(0px);
+    opacity: 0.2;
+  }
+}
+
+.particle {
+  animation: float-particle 8s ease-in-out infinite;
+}
+
+/* Floating icons — small, staggered, transform-only bobbing so it
+   reads as "alive" without ever costing a layout/paint pass. Each
+   icon gets its own timing so they never sync up like a single
+   robotic loop; that slight asynchrony is what sells it as crafted
+   rather than templated. */
+@keyframes icon-float {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-3.5px) rotate(-4deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+}
+
+.icon-float {
+  animation: icon-float 3.4s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  will-change: transform;
+}
+
+.icon-float-delay-1 {
+  animation-duration: 3.9s;
+  animation-delay: -0.6s;
+}
+.icon-float-delay-2 {
+  animation-duration: 3.1s;
+  animation-delay: -1.8s;
+}
+.icon-float-delay-3 {
+  animation-duration: 4.4s;
+  animation-delay: -2.5s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .icon-float,
+  .particle,
+  .cinematic-beam-bg {
+    animation: none;
+  }
+}
+
+/* SilverScreen Typography & Wordmark */
+.font-playfair {
+  font-family: "Playfair Display", Georgia, serif;
+}
+
+.silver-metallic-text {
+  background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 25%, #cbd5e1 55%, #94a3b8 80%, #64748b 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  display: inline-block;
+  letter-spacing: -0.015em;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.7));
+}
+
+.screen-cyan-text {
+  background: linear-gradient(180deg, #a5f3fc 0%, #38bdf8 45%, #0284c7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  display: inline-block;
+  letter-spacing: -0.015em;
+  filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.45));
+}
+
