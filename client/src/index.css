@@ -278,3 +278,31 @@
     animation: none;
   }
 }
+
+/* SilverScreen Typography & Wordmark */
+.font-playfair {
+  font-family: "Playfair Display", Georgia, serif;
+}
+
+.silver-metallic-text {
+  background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 25%, #cbd5e1 55%, #94a3b8 80%, #64748b 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  display: inline-block;
+  letter-spacing: -0.015em;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.7));
+}
+
+.screen-cyan-text {
+  background: linear-gradient(180deg, #a5f3fc 0%, #38bdf8 45%, #0284c7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  display: inline-block;
+  letter-spacing: -0.015em;
+  filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.45));
+}
+

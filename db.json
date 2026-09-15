@@ -380,6 +380,87 @@
       ],
       "paymentMethod": "card",
       "createdAt": "2026-09-14T15:58:11.061Z"
+    },
+    {
+      "id": 1789448823530,
+      "userId": 1,
+      "userEmail": "demo@riwicinema.com",
+      "movieId": 3,
+      "movieTitle": "Spider-Man: Brand New Day",
+      "poster": "https://image.tmdb.org/t/p/w500/5WEIg4rVybYOK5QMXbJc8SAdMaZ.jpg",
+      "showtime": "16:15",
+      "date": "Hoy, 10 Ago",
+      "seats": [
+        "E5",
+        "E6",
+        "E7",
+        "E8"
+      ],
+      "total": 11.9,
+      "snacks": [],
+      "paymentMethod": "card",
+      "createdAt": "2026-09-15T05:07:03.516Z"
+    },
+    {
+      "id": 1789449362651,
+      "userId": 1,
+      "userEmail": "demo@riwicinema.com",
+      "movieId": 3,
+      "movieTitle": "Spider-Man: Brand New Day",
+      "poster": "https://image.tmdb.org/t/p/w500/5WEIg4rVybYOK5QMXbJc8SAdMaZ.jpg",
+      "showtime": "16:15",
+      "date": "Hoy, 10 Ago",
+      "seats": [
+        "E5",
+        "E6",
+        "E7",
+        "E8"
+      ],
+      "total": 54.74,
+      "snacks": [
+        {
+          "snackId": 2,
+          "name": "Nachos Supreme",
+          "unitPrice": 6,
+          "quantity": 4,
+          "image": "https://images.unsplash.com/photo-1513456852971-30c0b8199d4d?auto=format&fit=crop&w=600&q=80"
+        },
+        {
+          "snackId": 4,
+          "name": "Bebida Refrescante",
+          "unitPrice": 3.5,
+          "quantity": 1,
+          "image": "https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=600&q=80"
+        },
+        {
+          "snackId": 1,
+          "name": "Combo Clásico",
+          "unitPrice": 8.5,
+          "quantity": 1,
+          "image": "https://images.unsplash.com/photo-1585647347384-2593bc35786b?auto=format&fit=crop&w=600&q=80"
+        }
+      ],
+      "paymentMethod": "cash",
+      "createdAt": "2026-09-15T05:16:02.602Z"
+    },
+    {
+      "id": 1789449378921,
+      "userId": 1,
+      "userEmail": "demo@riwicinema.com",
+      "movieId": 3,
+      "movieTitle": "Spider-Man: Brand New Day",
+      "poster": "https://image.tmdb.org/t/p/w500/5WEIg4rVybYOK5QMXbJc8SAdMaZ.jpg",
+      "showtime": "16:15",
+      "date": "Hoy, 10 Ago",
+      "seats": [
+        "F6",
+        "F7",
+        "F8"
+      ],
+      "total": 11.9,
+      "snacks": [],
+      "paymentMethod": "cash",
+      "createdAt": "2026-09-15T05:16:18.888Z"
     }
   ],
   "support": [
@@ -928,6 +1009,138 @@
       "tax": 5.795,
       "total": 36.295,
       "updatedAt": "2026-09-14T15:58:53.910Z"
+    },
+    {
+      "id": 1789448810335,
+      "userId": 1,
+      "userEmail": "demo@riwicinema.com",
+      "tickets": [
+        {
+          "movieId": 3,
+          "movieTitle": "Spider-Man: Brand New Day",
+          "poster": "https://image.tmdb.org/t/p/w500/5WEIg4rVybYOK5QMXbJc8SAdMaZ.jpg",
+          "showtime": "16:15",
+          "date": "Hoy, 10 Ago",
+          "seats": [
+            "E5",
+            "E6",
+            "E7",
+            "E8"
+          ],
+          "unitPrice": 10,
+          "quantity": 1
+        }
+      ],
+      "snacks": [],
+      "status": "completed",
+      "expiresAt": "2026-09-15T05:21:50.335Z",
+      "createdAt": "2026-09-15T05:06:50.336Z",
+      "ticketsSubtotal": 10,
+      "snacksSubtotal": 0,
+      "subtotal": 10,
+      "promotionDiscount": 0,
+      "membershipDiscount": 0,
+      "giftcardDiscount": 0,
+      "discount": 0,
+      "tax": 1.9,
+      "total": 11.9,
+      "updatedAt": "2026-09-15T05:06:50.336Z",
+      "completedAt": "2026-09-15T05:07:03.563Z"
+    },
+    {
+      "id": 1789448859243,
+      "userId": 1,
+      "userEmail": "demo@riwicinema.com",
+      "tickets": [
+        {
+          "movieId": 3,
+          "movieTitle": "Spider-Man: Brand New Day",
+          "poster": "https://image.tmdb.org/t/p/w500/5WEIg4rVybYOK5QMXbJc8SAdMaZ.jpg",
+          "showtime": "16:15",
+          "date": "Hoy, 10 Ago",
+          "seats": [
+            "E5",
+            "E6",
+            "E7",
+            "E8"
+          ],
+          "unitPrice": 10,
+          "quantity": 1
+        }
+      ],
+      "snacks": [
+        {
+          "snackId": 2,
+          "name": "Nachos Supreme",
+          "unitPrice": 6,
+          "quantity": 4,
+          "image": "https://images.unsplash.com/photo-1513456852971-30c0b8199d4d?auto=format&fit=crop&w=600&q=80"
+        },
+        {
+          "snackId": 4,
+          "name": "Bebida Refrescante",
+          "unitPrice": 3.5,
+          "quantity": 1,
+          "image": "https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=600&q=80"
+        },
+        {
+          "snackId": 1,
+          "name": "Combo Clásico",
+          "unitPrice": 8.5,
+          "quantity": 1,
+          "image": "https://images.unsplash.com/photo-1585647347384-2593bc35786b?auto=format&fit=crop&w=600&q=80"
+        }
+      ],
+      "status": "completed",
+      "expiresAt": "2026-09-15T05:22:39.243Z",
+      "createdAt": "2026-09-15T05:07:39.243Z",
+      "ticketsSubtotal": 10,
+      "snacksSubtotal": 36,
+      "subtotal": 46,
+      "promotionDiscount": 0,
+      "membershipDiscount": 0,
+      "giftcardDiscount": 0,
+      "discount": 0,
+      "tax": 8.74,
+      "total": 54.74,
+      "updatedAt": "2026-09-15T05:07:49.246Z",
+      "completedAt": "2026-09-15T05:16:02.688Z"
+    },
+    {
+      "id": 1789449370247,
+      "userId": 1,
+      "userEmail": "demo@riwicinema.com",
+      "tickets": [
+        {
+          "movieId": 3,
+          "movieTitle": "Spider-Man: Brand New Day",
+          "poster": "https://image.tmdb.org/t/p/w500/5WEIg4rVybYOK5QMXbJc8SAdMaZ.jpg",
+          "showtime": "16:15",
+          "date": "Hoy, 10 Ago",
+          "seats": [
+            "F6",
+            "F7",
+            "F8"
+          ],
+          "unitPrice": 10,
+          "quantity": 1
+        }
+      ],
+      "snacks": [],
+      "status": "completed",
+      "expiresAt": "2026-09-15T05:31:10.247Z",
+      "createdAt": "2026-09-15T05:16:10.247Z",
+      "ticketsSubtotal": 10,
+      "snacksSubtotal": 0,
+      "subtotal": 10,
+      "promotionDiscount": 0,
+      "membershipDiscount": 0,
+      "giftcardDiscount": 0,
+      "discount": 0,
+      "tax": 1.9,
+      "total": 11.9,
+      "updatedAt": "2026-09-15T05:16:10.247Z",
+      "completedAt": "2026-09-15T05:16:18.961Z"
     }
   ],
   "verificationTokens": []

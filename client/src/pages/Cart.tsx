@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { CinematicBackground } from "../components/CinematicBackground";
+import { Navbar } from "../components/Navbar";
 import {
   formatPrice,
   getCurrencyForCountry,
@@ -324,25 +325,7 @@ export default function CartPage() {
   return (
     <div className="min-h-screen relative text-white pb-16">
       <CinematicBackground />
-      <header className="sticky top-0 z-30 liquid-glass border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
-          <button
-            onClick={() => setLocation("/cinema")}
-            className="water-btn rounded-xl px-3 py-2 text-sm flex items-center gap-2"
-          >
-            <ArrowLeft className="size-4" />
-            Cartelera
-          </button>
-          <div className="flex items-center gap-2">
-            <ShoppingBag className="text-cyan-300 size-5" />
-            <span className="font-black tracking-widest">MI COMPRA</span>
-          </div>
-          <div className="hidden sm:flex items-center gap-2 text-xs text-slate-300">
-            <span>{user?.name}</span>
-            <span className="size-2 rounded-full bg-emerald-400" />
-          </div>
-        </div>
-      </header>
+      <Navbar currentPage="cart" />
       <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 pt-8">
         <div className="flex flex-col lg:flex-row gap-8">
           <section className="min-w-0 flex-1 space-y-8">

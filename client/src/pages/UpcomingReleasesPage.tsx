@@ -17,8 +17,7 @@ import {
 import { CinematicBackground } from "../components/CinematicBackground";
 import { useUpcomingMovies } from "../components/upcoming/useUpcomingMovies";
 import { UpcomingList } from "../components/upcoming/UpcomingList";
-import { SupportModal } from "../components/SupportModal";
-import { LocationModal } from "../components/location/LocationModal";
+import { Navbar } from "../components/Navbar";
 import { useLocation as useCinemaLocation } from "../components/location/useLocation";
 
 export default function UpcomingReleasesPage() {
@@ -125,115 +124,13 @@ export default function UpcomingReleasesPage() {
     <div className="min-h-screen relative pb-16">
       <CinematicBackground />
 
-      {/* Navigation Header (Idéntica a la homepage) */}
-      <header className="sticky top-0 z-40 liquid-glass border-b border-white/10 backdrop-blur-xl">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-          <div
-            className="flex items-center space-x-3 cursor-pointer"
-            onClick={() => setLocation("/cinema")}
-          >
-            <div className="w-10 h-10 rounded-xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-cyan-400 shadow-[0_0_15px_rgba(14,165,233,0.4)]">
-              <Film className="w-5 h-5" />
-            </div>
-            <div>
-              <h2 className="text-lg font-black tracking-wider text-white">
-                CINEMA RIWI
-              </h2>
-              <p className="text-[10px] text-cyan-300">
-                {language === "es"
-                  ? "Cartelera IMAX & Líquida"
-                  : "IMAX & Liquid Cinema"}
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center space-x-3">
-            <button
-              onClick={() => setLocation("/cinema")}
-              className="bg-white/5 text-slate-300 hover:bg-white/10 hover:text-white border border-white/10 px-4 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer"
-            >
-              {copy.billboard}
-            </button>
-            <button
-              onClick={() => setLocation("/proximos-estrenos")}
-              className="bg-cyan-500 text-white shadow-lg shadow-cyan-500/30 px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center space-x-1.5 cursor-pointer"
-              title={copy.upcoming}
-            >
-              <Sparkles className="w-3.5 h-3.5 text-white" />
-              <span>{copy.upcoming}</span>
-            </button>
-            <button
-              onClick={() => setLocation("/cinema?tab=bookings")}
-              className="bg-white/5 text-slate-300 hover:bg-white/10 hover:text-white border border-white/10 px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center space-x-1.5 cursor-pointer"
-            >
-              <Ticket className="w-3.5 h-3.5" />
-              <span>
-                {copy.bookings} ({userBookings.length})
-              </span>
-            </button>
-
-            <button
-              onClick={() => setLocation("/cart")}
-              className="water-btn px-4 py-2 rounded-xl text-xs font-semibold flex items-center space-x-1.5 cursor-pointer"
-              title="Abrir carrito"
-            >
-              <ShoppingBag className="w-3.5 h-3.5 text-cyan-400" />
-              <span>{copy.cart}</span>
-            </button>
-
-            <button
-              onClick={() => setLanguage(language === "es" ? "en" : "es")}
-              className="water-btn px-3 py-2 rounded-xl text-xs font-semibold flex items-center space-x-1.5 cursor-pointer"
-              title={
-                language === "es" ? "Cambiar a inglés" : "Switch to Spanish"
-              }
-            >
-              <Languages className="w-3.5 h-3.5 text-cyan-400" />
-              <span>{language === "es" ? "EN" : "ES"}</span>
-            </button>
-
-            <button
-              onClick={() => setIsLocationOpen(true)}
-              className="water-btn px-4 py-2 rounded-xl text-xs font-semibold flex items-center space-x-1.5 cursor-pointer"
-              title={
-                language === "es" ? "Seleccionar ubicación" : "Select location"
-              }
-            >
-              <MapPin className="w-3.5 h-3.5 text-cyan-400" />
-              <span>
-                {locationStore.confirmedCity ||
-                  locationStore.selection.city ||
-                  copy.location}
-              </span>
-            </button>
-
-            <button
-              onClick={() => setIsSupportOpen(true)}
-              className="water-btn px-4 py-2 rounded-xl text-xs font-semibold flex items-center space-x-1.5 cursor-pointer"
-            >
-              <LifeBuoy className="w-3.5 h-3.5 text-cyan-400" />
-              <span>{copy.support}</span>
-            </button>
-
-            <div className="hidden md:flex items-center space-x-2 pl-3 border-l border-white/10">
-              <div className="w-8 h-8 rounded-full bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-cyan-300 font-bold text-xs">
-                {user?.name?.[0] || "U"}
-              </div>
-              <span className="text-xs font-medium text-slate-200">
-                {user?.name || "Usuario"}
-              </span>
-            </div>
-
-            <button
-              onClick={handleLogout}
-              className="p-2.5 rounded-xl bg-white/5 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-all border border-white/10 cursor-pointer"
-              title={copy.logout}
-            >
-              <LogOut className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-      </header>
+      {/* Navigation Header */}
+      <Navbar
+        currentPage="upcoming"
+        bookingsCount={userBookings.length}
+        language={language}
+        onLanguageChange={setLanguage}
+      />
 
       {/* Contenido Principal con el mismo Layout de CinemaHome */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 relative z-10">
@@ -329,16 +226,6 @@ export default function UpcomingReleasesPage() {
         <Clapperboard className="w-4 h-4 text-cyan-400" />
         <span>{copy.footerText}</span>
       </footer>
-
-      {/* Modales Compartidos */}
-      <LocationModal
-        isOpen={isLocationOpen}
-        onClose={() => setIsLocationOpen(false)}
-      />
-      <SupportModal
-        isOpen={isSupportOpen}
-        onClose={() => setIsSupportOpen(false)}
-      />
     </div>
   );
 }

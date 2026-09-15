@@ -71,9 +71,12 @@ export default function MovieDetailPage() {
             <span>Volver al listado</span>
           </Link>
 
-          <Link href="/cinema" className="flex items-center space-x-2 text-slate-300 text-xs hover:text-white transition-colors cursor-pointer">
-            <Film className="w-4 h-4 text-cyan-400" />
-            <span className="font-bold text-white tracking-wider">CINEMA RIWI</span>
+          <Link href="/cinema" className="flex items-center space-x-2.5 group cursor-pointer select-none">
+            <img src="/icon.png" alt="SilverScreen Logo" className="h-8 w-auto object-contain shrink-0 transition-transform duration-300 group-hover:scale-105" />
+            <span className="font-playfair font-black text-lg tracking-tight leading-none">
+              <span className="silver-metallic-text">Silver</span>
+              <span className="screen-cyan-text">Screen</span>
+            </span>
           </Link>
         </div>
       </header>

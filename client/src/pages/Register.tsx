@@ -63,13 +63,16 @@ export default function Register() {
       <div className="liquid-glass w-full max-w-md rounded-3xl p-8 relative z-10 border border-cyan-500/30 shadow-2xl animate-in fade-in zoom-in-95 duration-500">
         {/* Brand Header */}
         <div className="text-center mb-8">
-          <div className="icon-float w-14 h-14 mx-auto rounded-2xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-cyan-400 mb-3 shadow-[0_0_20px_rgba(14,165,233,0.4)]">
-            <Film className="w-7 h-7" />
-          </div>
-          <h1 className="text-2xl font-black tracking-wider text-white">
-            REGISTRO RIWI
+          <img
+            src="/icon.png"
+            alt="SilverScreen Logo"
+            className="h-16 w-auto mx-auto object-contain mb-3 drop-shadow-[0_0_20px_rgba(14,165,233,0.4)]"
+          />
+          <h1 className="font-playfair font-black text-3xl tracking-tight leading-none">
+            <span className="silver-metallic-text">Silver</span>
+            <span className="screen-cyan-text">Screen</span>
           </h1>
-          <p className="text-xs text-cyan-300/80 mt-1">
+          <p className="text-xs text-cyan-300/80 mt-2">
             Crea tu cuenta y vive el cine al máximo nivel
           </p>
         </div>
