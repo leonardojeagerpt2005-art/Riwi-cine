@@ -58,7 +58,12 @@
   }
   body {
     @apply bg-background text-foreground font-sans antialiased selection:bg-cyan-500 selection:text-white;
-    background: radial-gradient(circle at 50% 10%, #1e1b4b 0%, #090d16 50%, #030712 100%);
+    background: radial-gradient(
+      circle at 50% 10%,
+      #1e1b4b 0%,
+      #090d16 50%,
+      #030712 100%
+    );
     min-height: 100vh;
     overflow-x: hidden;
   }
@@ -76,9 +81,10 @@
   backdrop-filter: blur(24px) saturate(150%);
   -webkit-backdrop-filter: blur(24px) saturate(150%);
   border: 1px solid rgba(255, 255, 255, 0.14);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7),
-              inset 0 1px 0 rgba(255, 255, 255, 0.16),
-              inset 0 -1px 0 rgba(0, 0, 0, 0.4);
+  box-shadow:
+    0 25px 50px -12px rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.4);
   isolation: isolate;
   contain: layout style paint;
   transform: translateZ(0);
@@ -100,7 +106,9 @@
     rgba(255, 255, 255, 0) 55%,
     rgba(56, 189, 248, 0.18) 100%
   );
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
@@ -116,7 +124,11 @@
   right: 8%;
   height: 40%;
   border-radius: inherit;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.14),
+    rgba(255, 255, 255, 0) 100%
+  );
   pointer-events: none;
   opacity: 0.8;
 }
@@ -128,13 +140,16 @@
   -webkit-backdrop-filter: blur(14px) saturate(140%);
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: #ffffff;
-  transition: border-color 0.3s cubic-bezier(0.23, 1, 0.32, 1),
-              box-shadow 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  transition:
+    border-color 0.3s cubic-bezier(0.23, 1, 0.32, 1),
+    box-shadow 0.3s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .liquid-glass-input:focus {
   border-color: rgba(91, 14, 233, 0.8);
-  box-shadow: 0 0 20px rgba(14, 72, 233, 0.3), inset 0 1px 2px rgba(0, 0, 0, 0.3);
+  box-shadow:
+    0 0 20px rgba(14, 72, 233, 0.3),
+    inset 0 1px 2px rgba(0, 0, 0, 0.3);
   outline: none;
 }
 
@@ -150,7 +165,7 @@
 }
 
 .water-btn::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
@@ -172,7 +187,9 @@
 .water-btn:hover {
   background: rgba(14, 165, 233, 0.35);
   border-color: rgba(56, 189, 248, 0.6);
-  box-shadow: 0 0 25px rgba(14, 165, 233, 0.4), inset 0 0 15px rgba(255, 255, 255, 0.2);
+  box-shadow:
+    0 0 25px rgba(14, 165, 233, 0.4),
+    inset 0 0 15px rgba(255, 255, 255, 0.2);
   transform: translateY(-2px);
 }
 
@@ -201,9 +218,18 @@
 }
 
 @keyframes float-particle {
-  0% { transform: translateY(0px) translateX(0px); opacity: 0.2; }
-  50% { transform: translateY(-40px) translateX(20px); opacity: 0.7; }
-  100% { transform: translateY(0px) translateX(0px); opacity: 0.2; }
+  0% {
+    transform: translateY(0px) translateX(0px);
+    opacity: 0.2;
+  }
+  50% {
+    transform: translateY(-40px) translateX(20px);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(0px) translateX(0px);
+    opacity: 0.2;
+  }
 }
 
 .particle {
@@ -216,9 +242,15 @@
    robotic loop; that slight asynchrony is what sells it as crafted
    rather than templated. */
 @keyframes icon-float {
-  0% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-3.5px) rotate(-4deg); }
-  100% { transform: translateY(0) rotate(0deg); }
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-3.5px) rotate(-4deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
 }
 
 .icon-float {
@@ -226,9 +258,18 @@
   will-change: transform;
 }
 
-.icon-float-delay-1 { animation-duration: 3.9s; animation-delay: -0.6s; }
-.icon-float-delay-2 { animation-duration: 3.1s; animation-delay: -1.8s; }
-.icon-float-delay-3 { animation-duration: 4.4s; animation-delay: -2.5s; }
+.icon-float-delay-1 {
+  animation-duration: 3.9s;
+  animation-delay: -0.6s;
+}
+.icon-float-delay-2 {
+  animation-duration: 3.1s;
+  animation-delay: -1.8s;
+}
+.icon-float-delay-3 {
+  animation-duration: 4.4s;
+  animation-delay: -2.5s;
+}
 
 @media (prefers-reduced-motion: reduce) {
   .icon-float,

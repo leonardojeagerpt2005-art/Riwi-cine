@@ -23,7 +23,12 @@ interface MovieCardProps {
   selectLabel?: string;
 }
 
-export function MovieCard({ movie, currency, onSelect, selectLabel = "Seleccionar y Reservar" }: MovieCardProps) {
+export function MovieCard({
+  movie,
+  currency,
+  onSelect,
+  selectLabel = "Seleccionar y Reservar",
+}: MovieCardProps) {
   const [videoFailed, setVideoFailed] = useState(false);
 
   useEffect(() => {
@@ -52,7 +57,7 @@ export function MovieCard({ movie, currency, onSelect, selectLabel = "Selecciona
           />
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-[#060913] via-transparent to-transparent opacity-80" />
-        
+
         {/* Rating Badge */}
         <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/15 flex items-center space-x-1 text-xs font-bold text-amber-400">
           <Star className="w-3.5 h-3.5 fill-amber-400" />
@@ -81,7 +86,9 @@ export function MovieCard({ movie, currency, onSelect, selectLabel = "Selecciona
               <Clock className="w-3.5 h-3.5 text-cyan-400" />
               <span>{movie.duration}</span>
             </span>
-            <span className="font-bold text-cyan-400 text-sm">{formatPrice(movie.price, currency)}</span>
+            <span className="font-bold text-cyan-400 text-sm">
+              {formatPrice(movie.price, currency)}
+            </span>
           </div>
 
           <button

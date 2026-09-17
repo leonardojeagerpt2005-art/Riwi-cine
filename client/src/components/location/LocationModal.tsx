@@ -15,9 +15,18 @@ interface LocationModalProps {
 // Modal de selección de ubicación con diseño liquid-glass. Solo se cierra
 // cuando hay una ciudad confirmada (o al pulsar la X / cancelar).
 export function LocationModal({ isOpen, onClose }: LocationModalProps) {
-  const { selection, setCountry, setDepartment, setCity, confirmLocation, isComplete } = useLocation();
+  const {
+    selection,
+    setCountry,
+    setDepartment,
+    setCity,
+    confirmLocation,
+    isComplete,
+  } = useLocation();
 
-  const [validationMessage, setValidationMessage] = useState<string | null>(null);
+  const [validationMessage, setValidationMessage] = useState<string | null>(
+    null
+  );
 
   if (!isOpen) return null;
 
@@ -55,7 +64,8 @@ export function LocationModal({ isOpen, onClose }: LocationModalProps) {
               ¿Dónde quieres ver tu película?
             </h3>
             <p className="text-xs text-slate-400">
-              Selecciona tu ubicación para mostrar la cartelera y el precio en la moneda de tu país.
+              Selecciona tu ubicación para mostrar la cartelera y el precio en
+              la moneda de tu país.
             </p>
           </div>
         </div>
@@ -82,7 +92,8 @@ export function LocationModal({ isOpen, onClose }: LocationModalProps) {
             <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0" />
             <span>
               Los precios se mostrarán en{" "}
-              <strong className="text-white">{currency.code}</strong> para {selection.country}.
+              <strong className="text-white">{currency.code}</strong> para{" "}
+              {selection.country}.
             </span>
           </div>
         )}

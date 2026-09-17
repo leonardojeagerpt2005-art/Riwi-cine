@@ -31,11 +31,18 @@ interface SeatSelectorProps {
   user: any;
   currency: Currency;
   onClose: () => void;
-  onBookingSuccess: () => void;
+  onCartCreated: (cart: any) => void;
 }
 
-function SeatItem({ seat, onToggle }: { seat: Seat; onToggle: (id: string) => void }) {
-  const base = "w-10 h-10 rounded-lg flex items-center justify-center transition-transform";
+function SeatItem({
+  seat,
+  onToggle,
+}: {
+  seat: Seat;
+  onToggle: (id: string) => void;
+}) {
+  const base =
+    "w-10 h-10 rounded-lg flex items-center justify-center transition-transform";
   const common = "shadow-[0_6px_18px_rgba(0,0,0,0.6)]";
 
   const styles: Record<string, string> = {
@@ -48,8 +55,10 @@ function SeatItem({ seat, onToggle }: { seat: Seat; onToggle: (id: string) => vo
 
   let cls = "";
   if (seat.status === "occupied") cls = styles.occupied;
-  else if (seat.status === "selected") cls = seat.type === "pro" ? styles.selected_pro : styles.selected_normal;
-  else cls = seat.type === "pro" ? styles.available_pro : styles.available_normal;
+  else if (seat.status === "selected")
+    cls = seat.type === "pro" ? styles.selected_pro : styles.selected_normal;
+  else
+    cls = seat.type === "pro" ? styles.available_pro : styles.available_normal;
 
   const SeatIcon = seat.type === "pro" ? FaCouch : MdEventSeat;
 
@@ -66,8 +75,16 @@ function SeatItem({ seat, onToggle }: { seat: Seat; onToggle: (id: string) => vo
   );
 }
 
-export function SeatSelector({ movie, user, currency, onClose, onBookingSuccess }: SeatSelectorProps) {
-  const [selectedTime, setSelectedTime] = useState(movie.showtimes[0] || "18:00");
+export function SeatSelector({
+  movie,
+  user,
+  currency,
+  onClose,
+  onCartCreated,
+}: SeatSelectorProps) {
+  const [selectedTime, setSelectedTime] = useState(
+    movie.showtimes[0] || "18:00"
+  );
   const [selectedDate] = useState("Hoy, 10 Ago");
   const [loading, setLoading] = useState(false);
   const [bookingConfirmed, setBookingConfirmed] = useState(false);
@@ -77,7 +94,10 @@ export function SeatSelector({ movie, user, currency, onClose, onBookingSuccess 
   const seatsPerRow = 8;
 
   // Pre-occupied seats
-  const occupiedSeatIds = useMemo(() => ["A3", "A4", "C2", "C3", "D7", "F5"], []);
+  const occupiedSeatIds = useMemo(
+    () => ["A3", "A4", "C2", "C3", "D7", "F5"],
+    []
+  );
 
   // Build initial seats with types (A-C normal, D-F pro)
   const initialSeats = useMemo(() => {
@@ -86,7 +106,9 @@ export function SeatSelector({ movie, user, currency, onClose, onBookingSuccess 
       for (let i = 1; i <= seatsPerRow; i++) {
         const id = `${row}${i}`;
         const type: SeatType = rIdx <= 2 ? "normal" : "pro"; // A-C normal, D-F pro
-        const status: SeatStatus = occupiedSeatIds.includes(id) ? "occupied" : "available";
+        const status: SeatStatus = occupiedSeatIds.includes(id)
+          ? "occupied"
+          : "available";
         map.push({ id, row, number: i, type, status });
       }
     });
@@ -95,14 +117,20 @@ export function SeatSelector({ movie, user, currency, onClose, onBookingSuccess 
 
   const [seats, setSeats] = useState<Seat[]>(initialSeats);
 
-  const selectedSeats = useMemo(() => seats.filter((s) => s.status === "selected").map((s) => s.id), [seats]);
+  const selectedSeats = useMemo(
+    () => seats.filter(s => s.status === "selected").map(s => s.id),
+    [seats]
+  );
 
   const toggleSeat = (seatId: string) => {
-    setSeats((prev) =>
-      prev.map((s) => {
+    setSeats(prev =>
+      prev.map(s => {
         if (s.id !== seatId) return s;
         if (s.status === "occupied") return s;
-        return { ...s, status: s.status === "selected" ? "available" : "selected" };
+        return {
+          ...s,
+          status: s.status === "selected" ? "available" : "selected",
+        };
       })
     );
   };
@@ -113,30 +141,32 @@ export function SeatSelector({ movie, user, currency, onClose, onBookingSuccess 
     if (selectedSeats.length === 0) return;
     setLoading(true);
     try {
-      const bookingData = {
+      const cartData = {
         userId: user?.id || 1,
         userEmail: user?.email || "demo@riwicinema.com",
-        movieId: movie.id,
-        movieTitle: movie.title,
-        poster: movie.poster,
-        showtime: selectedTime,
-        date: selectedDate,
-        seats: selectedSeats,
-        total: totalPrice,
-        createdAt: new Date().toISOString(),
+        tickets: [
+          {
+            movieId: movie.id,
+            movieTitle: movie.title,
+            poster: movie.poster,
+            showtime: selectedTime,
+            date: selectedDate,
+            seats: selectedSeats,
+            unitPrice: movie.price,
+            quantity: 1,
+          },
+        ],
       };
 
-      const res = await fetch("/api/bookings", {
+      const res = await fetch("/api/cart", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(bookingData),
+        body: JSON.stringify(cartData),
       });
 
       if (res.ok) {
         const data = await res.json();
-        setTicketDetails(data);
-        setBookingConfirmed(true);
-        onBookingSuccess();
+        onCartCreated(data);
       }
     } catch (err) {
       console.error(err);
@@ -148,7 +178,12 @@ export function SeatSelector({ movie, user, currency, onClose, onBookingSuccess 
   // Group seats by rows for rendering
   const seatsByRow = useMemo(() => {
     const map: Record<string, Seat[]> = {};
-    rows.forEach((row) => (map[row] = seats.filter((s) => s.row === row).sort((a, b) => a.number - b.number)));
+    rows.forEach(
+      row =>
+        (map[row] = seats
+          .filter(s => s.row === row)
+          .sort((a, b) => a.number - b.number))
+    );
     return map;
   }, [rows, seats]);
 
@@ -168,22 +203,41 @@ export function SeatSelector({ movie, user, currency, onClose, onBookingSuccess 
               <CheckCircle className="w-10 h-10" />
             </div>
             <div>
-              <h3 className="text-2xl font-bold text-white tracking-wide">¡Reserva Exitosa en Cinema Riwi!</h3>
-              <p className="text-sm text-slate-300 mt-1">Tus asientos han sido reservados correctamente.</p>
+              <h3 className="text-2xl font-bold text-white tracking-wide">
+                ¡Reserva Exitosa en Cinema Riwi!
+              </h3>
+              <p className="text-sm text-slate-300 mt-1">
+                Tus asientos han sido reservados correctamente.
+              </p>
             </div>
 
             <div className="w-full max-w-md p-5 rounded-2xl text-left border border-white/6 bg-gradient-to-b from-black/60 to-slate-900/40 space-y-3">
               <div className="flex items-center space-x-4">
-                <img src={movie.poster} alt={movie.title} className="w-16 h-20 object-cover rounded-xl" />
+                <img
+                  src={movie.poster}
+                  alt={movie.title}
+                  className="w-16 h-20 object-cover rounded-xl"
+                />
                 <div>
-                  <h4 className="font-bold text-white text-base">{movie.title}</h4>
-                  <p className="text-xs text-slate-400">{selectedDate} • {selectedTime}</p>
-                  <p className="text-xs text-slate-400 mt-1">Asientos: <strong className="text-white">{selectedSeats.join(", ")}</strong></p>
+                  <h4 className="font-bold text-white text-base">
+                    {movie.title}
+                  </h4>
+                  <p className="text-xs text-slate-400">
+                    {selectedDate} • {selectedTime}
+                  </p>
+                  <p className="text-xs text-slate-400 mt-1">
+                    Asientos:{" "}
+                    <strong className="text-white">
+                      {selectedSeats.join(", ")}
+                    </strong>
+                  </p>
                 </div>
               </div>
               <div className="pt-2 border-t border-white/8 flex justify-between items-center text-sm">
                 <span className="text-slate-400">Total Pagado:</span>
-                <span className="font-bold text-cyan-400 text-lg">{formatPrice(totalPrice, currency)}</span>
+                <span className="font-bold text-cyan-400 text-lg">
+                  {formatPrice(totalPrice, currency)}
+                </span>
               </div>
             </div>
 
@@ -197,24 +251,33 @@ export function SeatSelector({ movie, user, currency, onClose, onBookingSuccess 
         ) : (
           <div>
             <div className="flex items-center space-x-4 mb-6">
-              <img src={movie.poster} alt={movie.title} className="w-16 h-20 object-cover rounded-xl shadow-md" />
+              <img
+                src={movie.poster}
+                alt={movie.title}
+                className="w-16 h-20 object-cover rounded-xl shadow-md"
+              />
               <div>
                 <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-white/6 text-slate-200 border border-white/8">
                   {movie.genre}
                 </span>
-                <h3 className="text-xl font-bold text-white mt-1">{movie.title}</h3>
-                <p className="text-xs text-slate-400">Duración: {movie.duration} • {formatPrice(movie.price, currency)} por asiento</p>
+                <h3 className="text-xl font-bold text-white mt-1">
+                  {movie.title}
+                </h3>
+                <p className="text-xs text-slate-400">
+                  Duración: {movie.duration} •{" "}
+                  {formatPrice(movie.price, currency)} por asiento
+                </p>
               </div>
             </div>
 
             {/* Showtime Selection */}
             <div className="mb-6">
-              <label className="block text-xs font-medium text-slate-300 mb-2 flex items-center space-x-1.5">
+              <label className="flex items-center space-x-1.5 text-xs font-medium text-slate-300 mb-2">
                 <Clock className="w-3.5 h-3.5 text-cyan-400" />
                 <span>Selecciona el Horario</span>
               </label>
               <div className="flex flex-wrap gap-2">
-                {movie.showtimes.map((time) => (
+                {movie.showtimes.map(time => (
                   <button
                     key={time}
                     onClick={() => setSelectedTime(time)}
@@ -233,7 +296,9 @@ export function SeatSelector({ movie, user, currency, onClose, onBookingSuccess 
             {/* Screen indicator */}
             <div className="mb-6 text-center">
               <div className="w-3/4 mx-auto h-2 bg-gradient-to-r from-transparent via-cyan-400 to-transparent rounded-full shadow-[0_0_12px_rgba(56,189,248,0.5)] mb-2" />
-              <span className="text-[10px] uppercase tracking-widest text-slate-400 font-semibold">Pantalla Principal IMAX</span>
+              <span className="text-[10px] uppercase tracking-widest text-slate-400 font-semibold">
+                Pantalla Principal IMAX
+              </span>
             </div>
 
             {/* Seating Sections */}
@@ -241,14 +306,22 @@ export function SeatSelector({ movie, user, currency, onClose, onBookingSuccess 
               <div className="max-w-3xl mx-auto space-y-6">
                 {/* Normal Rows */}
                 <div>
-                  <h4 className="text-sm text-slate-300 font-semibold mb-3">Fila Normal</h4>
+                  <h4 className="text-sm text-slate-300 font-semibold mb-3">
+                    Fila Normal
+                  </h4>
                   <div className="space-y-2">
-                    {rows.slice(0, 3).map((row) => (
+                    {rows.slice(0, 3).map(row => (
                       <div key={row} className="flex items-center space-x-3">
-                        <span className="w-6 text-center text-xs font-bold text-slate-400">{row}</span>
+                        <span className="w-6 text-center text-xs font-bold text-slate-400">
+                          {row}
+                        </span>
                         <div className="grid grid-cols-8 gap-2">
-                          {seatsByRow[row].map((seat) => (
-                            <SeatItem key={seat.id} seat={seat} onToggle={toggleSeat} />
+                          {seatsByRow[row].map(seat => (
+                            <SeatItem
+                              key={seat.id}
+                              seat={seat}
+                              onToggle={toggleSeat}
+                            />
                           ))}
                         </div>
                       </div>
@@ -258,14 +331,22 @@ export function SeatSelector({ movie, user, currency, onClose, onBookingSuccess 
 
                 {/* Pro Rows */}
                 <div>
-                  <h4 className="text-sm text-slate-300 font-semibold mb-3">Fila Pro (Reclinables)</h4>
+                  <h4 className="text-sm text-slate-300 font-semibold mb-3">
+                    Fila Pro (Reclinables)
+                  </h4>
                   <div className="space-y-2">
-                    {rows.slice(3).map((row) => (
+                    {rows.slice(3).map(row => (
                       <div key={row} className="flex items-center space-x-3">
-                        <span className="w-6 text-center text-xs font-bold text-slate-400">{row}</span>
+                        <span className="w-6 text-center text-xs font-bold text-slate-400">
+                          {row}
+                        </span>
                         <div className="grid grid-cols-8 gap-2">
-                          {seatsByRow[row].map((seat) => (
-                            <SeatItem key={seat.id} seat={seat} onToggle={toggleSeat} />
+                          {seatsByRow[row].map(seat => (
+                            <SeatItem
+                              key={seat.id}
+                              seat={seat}
+                              onToggle={toggleSeat}
+                            />
                           ))}
                         </div>
                       </div>
@@ -304,9 +385,16 @@ export function SeatSelector({ movie, user, currency, onClose, onBookingSuccess 
             <div className="flex items-center justify-between pt-4 border-t border-white/8">
               <div>
                 <p className="text-xs text-slate-400">
-                  Asientos: <strong className="text-white">{selectedSeats.length > 0 ? selectedSeats.join(", ") : "Ninguno"}</strong>
+                  Asientos:{" "}
+                  <strong className="text-white">
+                    {selectedSeats.length > 0
+                      ? selectedSeats.join(", ")
+                      : "Ninguno"}
+                  </strong>
                 </p>
-                <p className="text-lg font-bold text-cyan-400 mt-0.5">Total: {formatPrice(totalPrice, currency)}</p>
+                <p className="text-lg font-bold text-cyan-400 mt-0.5">
+                  Total: {formatPrice(totalPrice, currency)}
+                </p>
               </div>
 
               <button
