@@ -13,6 +13,8 @@ import {
   Languages,
   Trash2,
   ShoppingBag,
+  Eye,
+  QrCode,
 } from "lucide-react";
 import { toast } from "sonner";
 import { CinematicBackground } from "../components/CinematicBackground";
@@ -474,6 +476,14 @@ export default function CinemaHome() {
                           <span className="font-bold text-white">
                             {formatPrice(b.total, currency)}
                           </span>
+                          <button
+                            onClick={() => setLocation(`/ticket/${b.id}`)}
+                            className="inline-flex items-center gap-1.5 rounded-lg border border-cyan-500/40 bg-cyan-500/10 px-2.5 py-1.5 font-semibold text-cyan-300 transition-colors hover:bg-cyan-500/20"
+                            title="Ver entrada y QR"
+                          >
+                            <QrCode className="h-3.5 w-3.5" />
+                            <span>Ver entrada</span>
+                          </button>
                           <button
                             type="button"
                             onClick={() => handleCancelBooking(b.id)}

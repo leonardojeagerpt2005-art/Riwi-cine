@@ -434,6 +434,51 @@ async function startServer() {
     return res.json({ success: true });
   });
 
+  // ===== BOOKING ACTIONS =====
+  app.post("/api/bookings/:id/resend", (req, res) => {
+    const db = readDb();
+    const bookingId = Number(req.params.id);
+    const booking = db.bookings.find((b: any) => b.id === bookingId);
+    if (!booking) return res.status(404).json({ error: "Reserva no encontrada" });
+
+    const email = req.body?.email || booking.userEmail;
+    console.log(
+      `[TICKET RESEND EMAIL] To: ${email} | Booking: #${bookingId} | Movie: ${booking.movieTitle} | Seats: ${booking.seats.join(", ")}`
+    );
+
+    return res.json({
+      success: true,
+      message: `Entrada reenviada a ${email}`,
+    });
+  });
+
+  app.post("/api/bookings/:id/regenerate-qr", (req, res) => {
+    const db = readDb();
+    const bookingId = Number(req.params.id);
+    const booking = db.bookings.find((b: any) => b.id === bookingId);
+    if (!booking) return res.status(404).json({ error: "Reserva no encontrada" });
+
+    const qrCode = JSON.stringify({
+      bookingId: booking.id,
+      movie: booking.movieTitle,
+      date: booking.date,
+      time: booking.showtime,
+      seats: booking.seats,
+      email: booking.userEmail,
+      issuedAt: new Date().toISOString(),
+      regenerated: true,
+    });
+
+    booking.qrCode = qrCode;
+    writeDb(db);
+
+    return res.json({
+      success: true,
+      qrCode,
+      message: "Código QR regenerado",
+    });
+  });
+
   // API Routes (Mocking JSON-Server)
   app.get("/api/:resource", (req, res) => {
     const db = readDb();

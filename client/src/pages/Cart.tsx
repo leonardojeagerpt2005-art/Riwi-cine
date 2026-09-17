@@ -224,6 +224,7 @@ export default function CartPage() {
     if (!cart || remaining === 0 || !paymentMethod) return;
     setUpdating(true);
     try {
+      let firstBookingId: number | null = null;
       for (const ticket of cart.tickets) {
         const response = await fetch("/api/bookings", {
           method: "POST",
@@ -244,10 +245,16 @@ export default function CartPage() {
           }),
         });
         if (!response.ok) throw new Error("No se pudo confirmar");
+        const booking = await response.json();
+        if (!firstBookingId) firstBookingId = booking.id;
       }
       await fetch(`/api/cart/${cart.id}`, { method: "DELETE" });
-      setPaid(true);
-      toast.success("Pago confirmado");
+      if (firstBookingId) {
+        setLocation(`/ticket/${firstBookingId}`);
+      } else {
+        setPaid(true);
+        toast.success("Pago confirmado");
+      }
     } catch {
       toast.error("No se pudo confirmar el pago");
     } finally {
